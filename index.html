@@ -1,1 +1,33 @@
-<a href="超連結的使用.html">超連結的使用</a>
+<!DOCTYPE html>
+<html lang="tw">
+    <head >
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Test</title>
+    </head>
+    <style>
+        a 
+        {
+            display: block; 
+            color: #0073e6;
+            background-color: #e6f0ff; /* 淡藍底色，柔和的感覺 */
+            text-decoration: none;
+            text-align: center; 
+            /* 使用 clamp() 動態決定字體大小： 
+                最小14px、理想值隨視窗大小(2vw)、最大20px */
+            font-size: clamp(14px, 2vw, 100px);
+            /* 邊距同樣使用 clamp()，使邊距在不同裝置間柔性變化 */
+            padding: clamp(4px, 1vw, 10px) clamp(8px, 2vw, 50px);
+            border-radius: 14px;
+        }
+
+        a:hover 
+        {
+            background-color: #cce0ff;
+            color: #005bb5;
+        }
+    </style>
+    <body>
+        <a href="超連結的使用.html">超連結的使用</a>
+    </body>
+</html>
