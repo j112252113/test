@@ -358,7 +358,7 @@
         </div>
         <div class="verification">
             <input type="text" placeholder="輸入驗證碼" />
-            <button>驗證</button>
+            <button id="verifyBtn">驗證</button>
             <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" alt="驗證成功" id="verifyIcon" />
         </div>
         <button>註冊</button>
@@ -390,7 +390,7 @@
             });
 
             // 驗證碼處理模擬
-            $('button:contains("驗證")').on('click', function () {
+            $('#verifyBtn').on('click', function () {
                 setTimeout(function () {
                     $('#verifyIcon').fadeIn();
                 }, 2000); // 模擬延遲驗證成功
