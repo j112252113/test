@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tw">
+    <head >
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CSS選擇器</title>
+        <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+    </head>
+    <style>
+        /* #card{
+            width: 400px;
+        } */
+        /* /0-1-0-0/ (!important-id-class-element)*/
+        .colorCard{
+            width: 300px;
+            /* border: 1px solid #000; */
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+        }
+        /* div{
+            width: 200px !important;
+        } */
+        .colorCard .color{
+            font-size: 18px;
+            font-family: 微軟正黑體; 
+            color: #0073e6;
+            /* background-color: #ccc; */
+            color: #fff;
+            line-height: 2;
+            text-align: center;
+            margin: 0;
+        }
+        /* /0-0-2-0/ (!important-id-class-element)*/
+        .color.color1{
+            background-color: #ACDBC9;
+        }
+        .color1{
+            background-color: #F48B94;
+        }
+        .color2{
+            background-color: #DBEBC2;
+        }
+        .color3{
+            background-color: #FDD2B5;
+        }
+        .color4{
+            background-color: #F7A7A6;
+        }
+        .color5{
+            background-color: #F48B94;
+            height: 200px;
+        }
+    </style>
+    <body>
+        <div class="colorCard" id="card" style="width: 500px;">
+            <p class="color color1" id="color1">#ACDBC9</p>
+            <p class="color color2" id="color2">#DBEBC2</p>
+            <p class="color color3">#FDD2B5</p>
+            <p class="color color4">#F7A7A6</p>
+            <p class="color color5">#F48B94</p>
+        </div>
+    </body>
+</html>
