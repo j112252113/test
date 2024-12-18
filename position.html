@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tw">
+    <head >
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>POSITION</title>
+    </head>
+    <style>
+        body {
+            height: 3000px;
+        }
+        .post {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #000;
+        }
+        .static {
+            background-color: #acdbc9;
+            position: static;
+            top: 100px;
+        }
+        .relative {
+            background-color: #fdd2b5;
+            position: relative;
+            top: 50px;
+            left: 50px;
+        }
+        .absolute {
+            background-color: #f7a7a6;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        }
+        .fixed {
+            background-color: #f48b94;
+            position: fixed;
+            right: 0px;
+            bottom: 0px;
+        }
+        .outter {
+            width: 600px;
+            height: 600px;
+            border: 5px solid #000;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        }
+        .relative1 {
+            background-color: #3d5f1a;
+            position: relative;
+            top: 100px;
+            left: 100px;
+            z-index: 1;
+        }
+        .relative2 {
+            background-color: #1d9ead;
+            position: relative;
+            top: 200px;
+            left: 50px;
+            z-index: -1;
+        }
+        .non-position {
+            background-color: #701f31;
+        }
+    </style>
+    <body>
+        <div class="post static">static</div>
+        <div class="post relative">relative</div>
+        <div class="outter">
+            我是absolute的外框
+            <div class="post absolute">absolute</div>
+        </div>
+        <div class="post fixed">fixed</div>
+        <div class="post relative1">relative1</div>
+        <div class="post relative2">relative2</div>
+        <div class="post non-position">non-position</div>
+</html>

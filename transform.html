@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tw">
+    <head >
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TRANSFORM</title>
+    </head>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: #ff3881;
+            position: absolute;
+            top: 250px;
+            left: 250px;
+            transform: rotate(-30deg);
+            transform:translate(100px,100px);
+            transform:skewY(45deg);
+            transform:scale(1.24); 
+        }
+        .outter {
+            width: 600px;
+            height: 600px;
+            border: 1px solid #000;
+            position: relative;
+            perspective: 100px;
+        }
+        
+    </style>
+    <body>
+        <div class="outter">
+            <div class="box"></div>
+        </div>
+</html>

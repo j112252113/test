@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="tw">
+    <head >
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>偽元素</title>
+    </head>
+    <style>
+        .btn 
+        {
+            color: #0073e6;
+            text-decoration: none;
+            font-size: 30px;
+            font-family: Arial;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            display:inline-block;
+            position: relative;
+        }
+
+        .btn:hover 
+        {
+            color: #005bb5;
+        }
+
+        .btn:active 
+        {
+            color: #a41160;
+        }
+
+        .btn:before
+        {
+            content: "";
+            width: 0;
+            height: 3px;
+            top: 0;
+            left: 0;
+            background-color: #11a43d;
+            display: inline-block;
+            position: absolute;
+            transition: width 0.5s;
+        }
+
+        .btn:after
+        {
+            content: "";
+            width: 0%;
+            height: 3px;
+            bottom: 0;
+            left: 50%;
+            background-color: #11a43d;
+            display: inline-block;
+            position: absolute;
+            transition: width 0.5s;
+            transform: translate(-50%);
+        }
+
+        .btn:hover:before
+        {
+            width: 100%;
+        }
+
+        .btn:hover:after
+        {
+            width: 100%;
+        }
+    </style>
+    <body>
+        <a class="btn" href="#">This is a link</a>     
+    </body>
+</html>

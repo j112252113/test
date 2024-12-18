@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tw">
+    <head >
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>滑鼠事件</title>
+    </head>
+    <style>
+        .btn 
+        {
+            color: #0073e6;
+            text-decoration: none;
+            font-size: 30px;
+            font-family: Arial;
+            display: block;
+        }
+
+        .btn:hover 
+        {
+            background-color: #cce0ff;
+            color: #005bb5;
+        }
+
+        .btn:active 
+        {
+            color: #a41160;
+            background-color: #e7f1e9;
+        }
+
+        .btn:nth-child(2n) 
+        {
+            /* color: #11a43d !important; */
+            color: #11a43d;
+        }
+
+        .btn:nth-of-type(3n) 
+        {
+            color: #db43ad;
+        }
+    </style>
+    <body>
+        <span class="btn">段落1</span>
+        <a class="btn" href="#">連結1</a>     
+        <a class="btn" href="#">連結2</a>
+        <span class="btn">段落2</span>
+        <a class="btn" href="#">連結3</a>
+        <a class="btn" href="#">連結4</a>
+        <a class="btn" href="#">連結5</a>
+        <a class="btn" href="#">連結6</a>
+        <span class="btn">段落3</span>
+    </body>
+</html>

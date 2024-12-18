@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="tw">
+    <head >
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TRANSITION</title>
+    </head>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: #ff3881;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform:translate(-50%,-50%);
+
+            transition-property: width, height;
+            transition-duration: 0.5s, 0.5s;
+            transition-delay: 0.5s, 0.5s;
+            transition-timing-function: cubic-bezier(.01,1.11,.98,-0.18); 
+            /* https://cubic-bezier.com/ */
+            /* transition:width 0.5s 0.5s ease, height 0.5s 0.5s ease; */
+        }
+        .box:hover{
+            width: 200px;
+            height: 200px;
+        }
+        
+    </style>
+    <body>
+        <div class="box"></div>
+</html>
