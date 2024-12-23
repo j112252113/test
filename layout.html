@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>排版技巧</title>
+</head>
+<style>
+   .row{
+       background-color: #aacbff;
+       padding: 20px;
+    }
+    .col{
+        height: 300px;
+        background-color: #2f66bc;
+        border: 1px solid #6da6ff;
+
+        display: inline-block;
+        vertical-align: top; /*bottom, middle*/
+        box-sizing: border-box;
+        width: 20%; /*width: 300px;*/
+
+        padding: 0 8px; /* 通常為8的倍數 */
+    }
+   .col-float{
+        height: 300px;
+        background-color: #2f66bc;
+        border: 1px solid #6da6ff;
+        
+        box-sizing: border-box;
+        width: 20%; /*width: 300px;*/
+        padding: 0 8px; /* 通常為8的倍數 */
+
+        float: left; /* left, right */
+    }
+    .row-flex{
+       background-color: #aacbff;
+       padding: 20px;
+       display: flex;
+       flex-wrap: nowrap;  /* nowrap, wrap, wrap-reverse */
+       justify-content: space-around;  /* flex-start, flex-end, center, space-between, space-around */
+    }
+    .col-flex{
+        height: 300px;
+        background-color: #2f66bc;
+        border: 1px solid #6da6ff;
+
+        box-sizing: border-box;
+        width: 20%; /*width: 300px;*/
+        padding: 0 8px; /* 通常為8的倍數 */
+        flex:1; /* 1, 2, 3, auto */ /* flex-wrap,justify-content 就失效了 */
+    }
+    .col-flex-1{
+        flex: 3;
+    }
+    .content{
+        background-color: #fff;
+    }
+    .clearfix:after{
+        content: "";
+        display: block;
+        clear: both;
+
+        height: 0;  /* 比較保險 */
+        visibility: hidden;  /* 比較保險 */
+    }
+</style>
+<body>
+    <div class="row">
+        <div class="col">
+            <div class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div
+        ><div class="col" style="height: 500px;">
+            <div class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div
+        ><div class="col">
+            <div class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div
+        ><div class="col">
+            <div class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div
+        ><div class="col">
+            <div class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div
+        ><div class="col">
+            <div class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-float">
+            <div class="content">
+                1.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-float" style="height: 500px;">
+            <div class="content">
+                2.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-float">
+            <div class="content">
+                3.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-float">
+            <div class="content">
+                4.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-float">
+            <div class="content">
+                5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-float">
+            <div class="content">
+                6.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <!-- <div class="clearfix"></div> -->
+    </div>
+    <div class="row-flex">
+        <div class="col-flex col-flex-1">
+            <div class="content">
+                1.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-flex">
+            <div class="content">
+                2.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-flex">
+            <div class="content">
+                3.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-flex">
+            <div class="content">
+                4.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-flex">
+            <div class="content">
+                5.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+        <div class="col-flex">
+            <div class="content">
+                6.Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo dolore nam voluptas laboriosam modi consectetur aperiam excepturi dignissimos quos accusamus possimus accusantium veritatis recusandae sapiente repellat quia, cumque similique aliquam.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

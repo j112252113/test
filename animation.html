@@ -44,19 +44,6 @@
             animation: moveRight 1s 0.5s both, turnToCard 1s 1.5s forwards;
         }
 
-        .ball span {
-            opacity: 0;
-            position:absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%,-50%);
-            font-size: 100px;
-            font-family: 微軟正黑體;
-            color: rgba(0,0,0,0.7);
-
-            animation: raiseHi 0.3s 2.5s forwards;
-        }
-
         @keyframes moveRight {
             0%{
                 left: 30%;
@@ -78,6 +65,19 @@
                 border-radius: 0;
                 background-color: #ffe8a5;
             }
+        }
+
+        .ball span {
+            opacity: 0;
+            position:absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            font-size: 100px;
+            font-family: 微軟正黑體;
+            color: rgba(0,0,0,0.7);
+
+            animation: raiseHi 0.3s 2.5s forwards;
         }
 
         @keyframes raiseHi {
