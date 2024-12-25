@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<!-- 
+  <!DOCTYPE html> 指明文件類型為 HTML5
+  這在現代網頁開發中是最常用的宣告。
+-->
+<html lang="zh-Hant">
+<!-- 
+  lang="zh-Hant" 表示此網頁的主要語言是「繁體中文」(Chinese Traditional)。
+  有助於搜尋引擎及部分瀏覽器進行更好的處理。
+-->
+<head>
+  <!-- 
+    <head> 區塊中包含了網頁的 meta 資訊、標題、CSS/JS 外部檔案連結等。
+  -->
+  <meta charset="UTF-8" />
+  <!-- 
+    meta charset="UTF-8" 指定網頁使用 UTF-8 編碼，確保文字顯示正確(含中文)。
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- 
+    meta name="viewport" 可以讓行動裝置正確調整頁面寬度顯示。
+    "width=device-width" 表示以裝置的實際寬度來縮放。
+    "initial-scale=1.0" 表示初始縮放比例為 1。
+  -->
+  <title>HTML Elements Showcase</title>
+  <!-- 
+    <title> 標籤決定了網頁在瀏覽器標籤上顯示的標題，也常在搜尋結果中作為顯示標題。
+  -->
+
+  <!-- ========== CSS 區域 ========== -->
+  <style>
+    /* 
+      --------------------------------------------------
+      Global Reset / 通用設定
+      --------------------------------------------------
+    */
+    * {
+      box-sizing: border-box; /* 設定盒模型計算方式 */
+      margin: 0;             /* 清除預設外距 */
+      padding: 0;            /* 清除預設內距 */
+    }
+
+    body {
+      font-family: "Microsoft JhengHei", sans-serif; /* 指定字體（繁體中文常用） */
+      background-color: #f4f4f4;                     /* 淺灰色背景 */
+      color: #333;                                   /* 文字主色調 */
+      line-height: 1.6;                              /* 行高，讓文字更好閱讀 */
+      margin: 0;                                     /* body 的預設外距清除 */
+      padding: 0;                                    /* body 的預設內距清除 */
+    }
+
+    /* 
+      超連結設定
+      --------------------------------------------------
+    */
+    a {
+      color: #007bff;            /* 藍色連結 */
+      text-decoration: none;     /* 去掉底線 */
+    }
+    a:hover {
+      text-decoration: underline;/* 滑鼠移上去時顯示底線 */
+    }
+
+    /* 
+      圖片設定
+      --------------------------------------------------
+    */
+    img {
+      max-width: 100%;  /* 圖片最大寬度不超過容器寬度 */
+      height: auto;     /* 高度自動，維持圖片比例 */
+      display: block;   /* 改為區塊元素，避免文字環繞 */
+    }
+
+    /*
+      主要結構標籤區塊
+      header, nav, main, section, article, aside, footer
+      --------------------------------------------------
+      設定相同的外框樣式、留白，以便整齊呈現。
+    */
+    header, nav, main, section, article, aside, footer {
+      background: #fff;          /* 白底 */
+      margin: 1rem auto;         /* 上下、左右留白 (auto 置中) */
+      padding: 1rem;             /* 內距 */
+      border: 1px solid #ddd;    /* 灰色邊框 */
+      border-radius: 6px;        /* 圓角 */
+      max-width: 1200px;         /* 最大寬度 */
+    }
+
+    /* 
+      header 專屬設定
+      --------------------------------------------------
+    */
+    header {
+      background-color: #007bff; /* 藍色底 */
+      color: #fff;               /* 文字白色 */
+      text-align: center;        /* 置中 */
+    }
+
+    /* 
+      nav 導航列設定
+      --------------------------------------------------
+    */
+    nav a {
+      margin-right: 1rem; /* 右邊留一點距離 */
+      font-weight: 500;   /* 微微加粗，使其更突出 */
+    }
+
+    /* 
+      footer 頁尾設定
+      --------------------------------------------------
+    */
+    footer {
+      text-align: center; /* 文字置中 */
+      font-size: 0.9rem;  /* 稍微縮小字體 */
+      color: #666;        /* 灰階文字 */
+    }
+
+    /*
+      內文排版相關設定
+      --------------------------------------------------
+    */
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 0.5rem; /* 與後方元素保持一點距離 */
+      line-height: 1.2;      /* 行高 */
+    }
+
+    p {
+      margin-bottom: 1rem;   /* 與後方元素間距 */
+    }
+
+    small {
+      font-size: 0.8em;      /* 顯示較小字體 */
+      color: #999;
+    }
+
+    strong {
+      font-weight: 600;      /* 文字加粗 */
+    }
+
+    em {
+      font-style: italic;    /* 文字斜體 */
+      color: #c20;           /* 顏色可自訂 */
+    }
+
+    mark {
+      background-color: #ffeb3b; /* 文字底色 (類似螢光筆) */
+      color: #333;               /* 螢光底色上的文字顏色 */
+    }
+
+    code {
+      background: #eee;             /* 淺灰底 */
+      padding: 0.2em 0.4em;         /* 四周留白 */
+      font-family: Consolas, monospace; /* 等寬字體適合程式碼 */
+      border-radius: 4px;           /* 稍微圓角 */
+    }
+
+    /*
+      Aside / 側邊區域
+      --------------------------------------------------
+    */
+    aside {
+      margin-top: 1rem;         /* 與上方區塊間距 */
+      background: #fafafa;      /* 更淺的灰底 */
+      border: 1px dashed #ccc;  /* 虛線邊框 */
+    }
+
+    /*
+      圖片與 figure
+      --------------------------------------------------
+      figure 與 figcaption 可組合使用
+      figure：用來包住圖片或媒體
+      figcaption：給定媒體的描述
+    */
+    figure {
+      margin: 1rem 0;
+      text-align: center; /* 置中常見用法 */
+    }
+    figcaption {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    /*
+      列表
+      --------------------------------------------------
+    */
+    ul, ol {
+      margin-left: 1.5rem;   /* 與左邊保持距離，避免文字緊貼 */
+      margin-bottom: 1rem;   /* 與後方留距 */
+    }
+    li {
+      margin-bottom: 0.5rem; /* 列表項之間的垂直間距 */
+    }
+
+    /*
+      定義列表 (dl, dt, dd)
+      --------------------------------------------------
+      通常用在詞彙解釋等地方
+    */
+    dl dt {
+      font-weight: bold;     /* dt 通常是標題、詞彙 */
+      margin-top: 1rem;      /* 與前方間距 */
+    }
+    dl dd {
+      margin-bottom: 1rem;   /* 與後方間距 */
+      margin-left: 1rem;     /* 內縮 */
+    }
+
+    /*
+      表格 (table)
+      --------------------------------------------------
+    */
+    table {
+      width: 100%;                /* 撐滿容器 */
+      border-collapse: collapse;  /* 合併邊框，避免每個格子出現兩重線 */
+      margin: 1rem 0;            /* 與上下元素間距 */
+    }
+    table caption {
+      caption-side: top;          /* 預設位置在頂部 */
+      font-weight: bold;
+      margin-bottom: 0.5rem;      /* 與表格間一點距離 */
+    }
+    th, td {
+      border: 1px solid #ccc;     /* 邊框 */
+      padding: 0.75rem;           /* 內距 */
+      text-align: left;           /* 文字靠左 */
+    }
+    thead {
+      background-color: #f9f9f9;  /* 表頭底色 */
+    }
+    tfoot td {
+      text-align: center;
+      color: #555;
+    }
+
+    /*
+      表單 (form) 與各種表單元素
+      --------------------------------------------------
+    */
+    form {
+      display: block;           /* 預設即可，這裡顯示意義 */
+      margin-top: 1rem;         /* 與前文距離 */
+    }
+    fieldset {
+      border: 1px solid #ccc;   /* 外框 */
+      padding: 1rem;
+      border-radius: 6px;
+    }
+    legend {
+      font-weight: bold;        /* 標題加粗 */
+      padding: 0 0.5rem;        /* 與邊框距離 */
+    }
+    label {
+      display: inline-block;    /* 不同裝置顯示更好控制 */
+      margin-top: 0.5rem;       /* 與上方元素距離 */
+      margin-bottom: 0.25rem;   /* 與輸入框距離 */
+    }
+    input, select, textarea, button {
+      display: block;           /* 獨佔一行顯示 */
+      width: 100%;              /* 預設寬度 100% */
+      max-width: 400px;         /* 最大寬度設定為 400px，避免過寬 */
+      margin-bottom: 1rem;      /* 與下個元素間距 */
+      padding: 0.5rem;          /* 內距 */
+      font-size: 1rem;          /* 文字大小 */
+      border-radius: 4px;       /* 圓角邊框 */
+      border: 1px solid #ccc;   /* 外邊框 */
+    }
+    button {
+      background-color: #007bff; /* 按鈕底色 */
+      color: #fff;               /* 文字白色 */
+      cursor: pointer;           /* 滑鼠移上變成指標 */
+      border: none;              /* 移除預設邊框 */
+      width: auto;               /* 恢復按鈕自動寬度 */
+    }
+    button:hover {
+      background-color: #0056b3; /* 滑鼠移上時的底色 */
+    }
+
+    /*
+      進度條 (progress) 與量規 (meter)
+      --------------------------------------------------
+      這些 HTML5 元素需要瀏覽器支援才會有預設樣式。
+    */
+    progress, meter {
+      display: block;           /* 獨佔一行 */
+      margin: 0.5rem 0;         /* 與前後元素距離 */
+    }
+
+    /*
+      Canvas 區塊
+      --------------------------------------------------
+    */
+    #myCanvas {
+      margin: 1rem 0;           /* 上下留白 */
+      border: 1px solid #ccc;   /* 外框 */
+      border-radius: 4px;       /* 圓角 */
+      background-color: #fafafa;/* 淺灰底色 */
+    }
+  </style>
+</head>
+<body>
+  <!-- 
+    header：頁首 
+    通常用於放網頁標題、logo、slogan 等
+  -->
+  <header>
+    <h1>HTML Elements Showcase <small>範例頁面</small></h1>
+    <!-- <small> 標籤可用來表示較小的文字或註腳。 -->
+    <p>展示各種常見的 HTML 標籤元素，並搭配基礎的 CSS。</p>
+  </header>
+
+  <!-- 
+    nav：導覽列 
+    可以放置網站主要的導覽連結
+  -->
+  <nav>
+    <a href="#">首頁</a>
+    <a href="#">關於我們</a>
+    <a href="#">聯絡方式</a>
+  </nav>
+
+  <!-- 
+    main：主要內容區 
+    是一整個網頁的主要展示區域
+  -->
+  <main>
+    <!-- 
+      section：區段 
+      主要用來區隔網頁的不同主題或功能
+    -->
+    <section>
+      <!-- 
+        article：文章 
+        內容可以獨立成一篇文章或獨立性內容
+      -->
+      <article>
+        <h2>常見文字標籤</h2>
+        <p>
+          這裡是一段段落文字，包含了 <strong>加粗</strong>、
+          <em>斜體</em>、以及 <mark>高亮</mark> 等元素。
+          也可以使用 <b>粗體</b>、<i>斜體</i>、<u>底線</u> 來做不同的強調。
+        </p>
+        <p>
+          HTML 是 
+          <abbr title="HyperText Markup Language">HTML</abbr>
+          的縮寫。使用 
+          <q cite="https://example.com">這是一段引用文字</q>
+          來代表引用內容，或是在文中顯示程式碼：
+          <code>&lt;div&gt;</code>。
+          亦可用 <cite>這是一個引用出處</cite>
+          代表著作來源。
+        </p>
+        <p>
+          鍵盤輸入可以用 <kbd>Ctrl + S</kbd> 顯示。
+          <var>x</var> 通常表示變數，可根據需求加以應用。
+        </p>
+        <p>
+          時間標籤：
+          <time datetime="2024-12-25">2024年12月25日</time>
+        </p>
+
+        <!-- 進度條與量規 (HTML5 新增元素) -->
+        <progress value="50" max="100">50%</progress>
+        <meter value="3" min="0" max="10">3/10</meter>
+
+        <!-- 
+          figure 與 figcaption:
+          可將圖片及其說明一起包裹
+        -->
+        <figure>
+          <img src="https://via.placeholder.com/300.png" alt="示意圖片" />
+          <figcaption>這是一張示意圖片的說明文字</figcaption>
+        </figure>
+      </article>
+
+      <!-- 
+        aside：側邊/旁支內容 
+        與主要文章有關或無關的小資訊、廣告、活動等
+      -->
+      <aside>
+        <h4>側欄/Aside 區域</h4>
+        <p>這裡可以放一些跟主文相關或無關的額外內容。</p>
+      </aside>
+    </section>
+
+    <!-- 
+      第二個區塊：展示列表 (ul, ol, dl) 和表格
+    -->
+    <section>
+      <h2>列表與表格</h2>
+      <!-- 無序列表 (ul) -->
+      <ul>
+        <li>清單項目 1</li>
+        <li>清單項目 2</li>
+        <li>清單項目 3</li>
+      </ul>
+      <!-- 有序列表 (ol) -->
+      <ol>
+        <li>順序清單 1</li>
+        <li>順序清單 2</li>
+        <li>順序清單 3</li>
+      </ol>
+
+      <!-- 定義列表 (dl, dt, dd) -->
+      <dl>
+        <dt>HTML</dt>
+        <dd>HyperText Markup Language</dd>
+        <dt>CSS</dt>
+        <dd>Cascading Style Sheets</dd>
+      </dl>
+
+      <!-- 表格 (table) -->
+      <table>
+        <caption>範例表格</caption>
+        <thead>
+          <tr>
+            <th>標題 1</th>
+            <th>標題 2</th>
+            <th>標題 3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>內容 1-1</td>
+            <td>內容 1-2</td>
+            <td>內容 1-3</td>
+          </tr>
+          <tr>
+            <td>內容 2-1</td>
+            <td>內容 2-2</td>
+            <td>內容 2-3</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <!-- colspan="3" 代表此欄位橫跨 3 欄 -->
+            <td colspan="3">表尾資訊</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+
+    <!-- 
+      第三個區塊：表單
+    -->
+    <section>
+      <h2>表單範例</h2>
+      <form action="#" method="POST">
+        <!-- 
+          fieldset 與 legend 可以替表單分組，並加上標題
+        -->
+        <fieldset>
+          <legend>基本表單</legend>
+
+          <label for="text-input">文字輸入框：</label>
+          <!-- 
+            type="text" 最基本的文字輸入
+            placeholder 提示使用者輸入
+          -->
+          <input type="text" id="text-input" name="text-input" placeholder="請輸入文字" />
+
+          <label for="select-box">選擇下拉選單：</label>
+          <select id="select-box" name="select-box">
+            <option value="option1">選項一</option>
+            <option value="option2">選項二</option>
+            <option value="option3">選項三</option>
+          </select>
+
+          <!-- checkbox 多選框 -->
+          <label>
+            <input type="checkbox" name="agree" checked />
+            同意條款
+          </label>
+
+          <!-- radio 單選框：共享同一個 name -->
+          <label for="radio1">
+            <input type="radio" id="radio1" name="radio-group" value="option1" checked />
+            Radio 選項 1
+          </label>
+          <label for="radio2">
+            <input type="radio" id="radio2" name="radio-group" value="option2" />
+            Radio 選項 2
+          </label>
+
+          <label for="range">Range 範圍拉桿：</label>
+          <input type="range" id="range" name="range" min="0" max="100" value="50" />
+
+          <!-- 多行文字輸入框 -->
+          <label for="textarea">多行文字輸入：</label>
+          <textarea id="textarea" name="textarea" rows="4" cols="50">預設文字</textarea>
+
+          <!-- 送出按鈕 -->
+          <button type="submit">送出</button>
+        </fieldset>
+      </form>
+    </section>
+
+    <!-- 
+      第四個區塊：多媒體 (video, audio)
+    -->
+    <section>
+      <h2>多媒體範例</h2>
+      <!-- video 影片 -->
+      <video width="320" height="180" controls>
+        <!-- 
+          <source> 提供影片連結
+          type="video/mp4" 告知瀏覽器影片檔格式
+        -->
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        很抱歉，您的瀏覽器不支援影片播放。
+      </video>
+      <!-- audio 音訊 -->
+      <audio controls>
+        <source src="https://www.w3schools.com/html/horse.ogg" type="audio/ogg">
+        很抱歉，您的瀏覽器不支援音訊播放。
+      </audio>
+    </section>
+
+    <!-- 
+      第五個區塊：Canvas
+    -->
+    <section>
+      <h2>Canvas 範例</h2>
+      <!-- 
+        <canvas>：可用來動態繪製圖形、文字、動畫等
+      -->
+      <canvas id="myCanvas" width="300" height="100">
+        您的瀏覽器不支援 Canvas。
+      </canvas>
+    </section>
+  </main>
+
+  <!-- 
+    footer：頁尾
+    通常包含版權資訊、聯繫資訊、網站連結等
+  -->
+  <footer>
+    <p>Copyright © 2024 HTML Showcase.</p>
+  </footer>
+
+  <!-- 
+    簡單的 JavaScript：在 Canvas 上繪製圖案
+  -->
+  <script>
+    // 取得 <canvas> 元素
+    const canvas = document.getElementById('myCanvas');
+    // 檢查瀏覽器支援
+    if (canvas.getContext) {
+      // getContext('2d') 取得 2D 繪圖環境
+      const ctx = canvas.getContext('2d');
+
+      // 設定繪圖區塊的填色方塊
+      ctx.fillStyle = '#ff6600';    // 橘色
+      ctx.fillRect(10, 10, 50, 50); // 繪製一個矩形 (x, y, width, height)
+
+      ctx.fillStyle = '#0066ff';    // 藍色
+      ctx.fillRect(70, 10, 50, 50);
+
+      // 繪製文字
+      ctx.fillStyle = '#333';       // 文字顏色
+      ctx.font = '16px Microsoft JhengHei'; // 字體設定
+      ctx.fillText('Canvas 測試文字', 10, 90); // 在(10, 90)位置顯示文字
+    }
+  </script>
+</body>
+</html>
