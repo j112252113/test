@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>看笑話學英文</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>看笑話學英文</h1>
+    <button id="getJoke">來一個!</button>
+    <p id="joke"></p>
+    <button id="translate">看翻譯!</button>
+    <p id="translatedJoke"></p>
+
+    <script>
+        $(document).ready(function () {
+            const jokeApiUrl = 'https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist,sexist';
+            const translateApiUrl = 'https://translate.googleapis.com/translate_a/single?client=gtx';
+
+            // 點擊按鈕時觸發
+            $('#getJoke').on('click', function () {
+                // 清空之前的內容
+                $('#joke').text('笑話產生中...');
+                $('#translatedJoke').text('');
+
+                // 取得笑話
+                $.ajax({
+                    url: jokeApiUrl,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (jokeData) {
+                        let joke;
+                        if (jokeData.type === 'single') {
+                            // 單一笑話
+                            joke = jokeData.joke;
+                        } else if (jokeData.type === 'twopart') {
+                            // 雙部分笑話
+                            joke = `${jokeData.setup} - ${jokeData.delivery}`;
+                        } else {
+                            joke = 'Could not fetch a joke!';
+                        }
+
+                        $('#joke').text(joke);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching joke:', error);
+                        $('#joke').text('Failed to fetch a joke. Please try again.');
+                    },
+                });
+            });
+
+            $('#translate').on('click',function(){
+                let joke = $('#joke').text();
+                $('#translatedJoke').text('翻譯中...');
+                // 使用正則表達式分割笑話
+                const parts = joke.split(/(?<=[,.?!])\s*/);
+                const translatedParts = [];
+
+                parts.forEach((part, index) => {
+                    if (part.trim() === '') return; // 跳過空白部分
+
+                    // 翻譯每一部分
+                    $.ajax({
+                        url: translateApiUrl,
+                        method: 'GET',
+                        dataType: 'json',
+                        data: {
+                            sl: 'en', // 原文語言
+                            tl: 'zh-TW', // 翻譯語言
+                            dt: 't',
+                            q: part.trim(), // 每一段文字
+                        },
+                        success: function (translateData) {
+                            translatedParts[index] = translateData[0][0][0];
+
+                            // 如果所有部分都翻譯完成，顯示結果
+                            if (translatedParts.length === parts.length && !translatedParts.includes(undefined)) {
+                                $('#translatedJoke').text(`${translatedParts.join(' ')}`);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error translating part:', error);
+                            $('#translatedJoke').text('翻譯失敗，請稍後再試。');
+                        },
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
