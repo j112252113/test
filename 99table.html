@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九九乘法表</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #000;
+            text-align: center;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>九九乘法表</h1>
+    <table id="multiplicationTable"></table>
+
+    <script>
+        // 獲取表格容器
+        const table = document.getElementById('multiplicationTable');
+        let start = 2;
+        let end = 9;
+        // 建立表頭
+        const headerRow = document.createElement('tr');
+        for (let i = start; i <= end; i++) {
+            const th = document.createElement('th');
+            th.textContent = `${i} Times`;
+            headerRow.appendChild(th);
+        }
+        table.appendChild(headerRow);
+
+        // 填入九九乘法表內容
+        for (let i = 1; i <= 9; i++) {
+            const row = document.createElement('tr');
+            for (let j = start; j <= end; j++) {
+                const cell = document.createElement('td');
+                cell.textContent = `${j} × ${i} = ${j * i}`;
+                row.appendChild(cell);
+            }
+            table.appendChild(row);
+        }
+    </script>
+</body>
+</html>

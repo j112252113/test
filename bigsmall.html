@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數字猜謎遊戲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>數字猜謎遊戲</h1>
+    <p>系統已隨機生成一個 1 到 100 的數字。你能猜到它嗎？</p>
+    <input type="number" id="guess" placeholder="輸入你的猜測">
+    <button onclick="startGame()">猜一猜！</button>
+    <p class="result" id="result"></p>
+
+    <script>
+        // 隨機生成目標數字
+        const targetNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0; // 嘗試次數
+
+        function startGame() {
+            const input = document.getElementById('guess');
+            const result = document.getElementById('result');
+            const userGuess = parseInt(input.value);
+
+            if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+                result.textContent = "請輸入 1 到 100 的有效數字！";
+                result.className = "result error";
+                return;
+            }
+
+            attempts++; // 計算嘗試次數
+
+            let message = '';
+            if (userGuess < targetNumber) {
+                message = "太小了！再試一次。";
+            } else if (userGuess > targetNumber) {
+                message = "太大了！再試一次。";
+            } else {
+                message = `恭喜你猜對了！答案是 ${targetNumber}，你總共嘗試了 ${attempts} 次！`;
+            }
+            result.textContent = message;
+            result.className = "result";
+        }
+    </script>
+</body>
+</html>

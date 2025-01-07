@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 生日判斷年齡範例</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>生日判斷年齡範例</h1>
+
+    <label for="birthday">請輸入您的生日（YYYY-MM-DD）：</label>
+    <input type="date" id="birthday">
+    <button onclick="checkAge()">檢查年齡</button>
+
+    <div id="result"></div>
+
+    <script>
+        function checkAge() {
+            let birthdayInput = document.getElementById("birthday").value;
+            let resultDiv = document.getElementById("result");
+
+            if (birthdayInput === "") {
+                resultDiv.textContent = "請輸入生日！";
+                return; // 提前結束函式
+            }
+
+            let birthday = new Date(birthdayInput);
+            let today = new Date();
+            let age = today.getFullYear() - birthday.getFullYear();
+            let monthDiff = today.getMonth() - birthday.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
+                age--;
+            }
+
+            if (age >= 18) {
+                resultDiv.textContent = "您已滿 18 歲。";
+            } else {
+                resultDiv.textContent = "您未滿 18 歲。";
+            }
+        }
+    </script>
+
+</body>
+</html>

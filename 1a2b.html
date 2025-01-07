@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1A2B 猜數字遊戲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .result, .error {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .result {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>1A2B 猜數字遊戲</h1>
+    <p>系統已隨機生成一個 0~9 的不重複四位數字。試著猜出它！</p>
+    <input type="text" id="guess" placeholder="輸入四位數">
+    <button onclick="checkGuess()">提交</button>
+    <p class="result" id="result"></p>
+    <h2>猜測紀錄</h2>
+    <ul id="history"></ul>
+
+    <script>
+        function isUnique4Numbers(number) 
+        {
+            // 檢查長度是否為4
+            if (number.length !== 4) {
+                return false;
+            }
+
+            // 檢查是否為數字且在0到9之間
+            for (let char of number) {
+                // if (!/^[0-9]$/.test(char)) {
+                if (char < '0' || char > '9') {
+                    return false; // 如果有非數字字符，返回false
+                }
+            }
+
+            // 使用Set來檢查數字是否唯一
+            const uniqueDigits = new Set(number);
+            return uniqueDigits.size === 4; // 如果Set的大小為4，則所有數字都不相同
+        }
+
+        // 生成不重複的四位數
+        function generateNumber() {
+            const digits = [];
+            while (digits.length < 4) {
+                const randomDigit = Math.floor(Math.random() * 10);
+                if (!digits.includes(randomDigit)) {
+                    digits.push(randomDigit);
+                }
+            }
+            return digits.join('');
+        }
+
+        const answer = generateNumber(); // 答案
+        console.log("答案為: " + answer); // 可在開發時用於測試
+        let attempts = 0; // 嘗試次數
+
+        // 檢查玩家的猜測
+        function checkGuess() {
+            const input = document.getElementById('guess').value;
+            const result = document.getElementById('result');
+            const history = document.getElementById('history');
+
+            // 驗證輸入
+            if (!isUnique4Numbers(input)) {
+                result.textContent = "請輸入四位不重複的數字！";
+                result.className = "result error";
+                return;
+            }
+            result.className = "result";
+
+            // 比較答案與輸入
+            let A = 0, B = 0;
+            for (let i = 0; i < 4; i++) {
+                if (input[i] === answer[i]) {
+                    A++;
+                } else if (answer.includes(input[i])) {
+                    B++;
+                }
+            }
+            attempts++;
+
+            // 顯示結果
+            if (A === 4) {
+                result.textContent = `恭喜你猜對了！答案是 ${answer}，你總共嘗試了 ${attempts} 次！`;
+            } else {
+                result.textContent = `結果：${A}A${B}B`;
+                const record = document.createElement('li');
+                record.textContent = `第 ${attempts} 次：${input} -> ${A}A${B}B`;
+                history.appendChild(record);
+            }
+        }
+    </script>
+</body>
+</html>

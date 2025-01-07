@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>待辦事項</title>
+</head>
+<style>
+    body{
+        background-color: #00c787;
+        display: flex;
+        justify-content: center;
+    }
+    .panel{
+        background-color: #fff;
+        width: 300px;
+        padding: 30px;
+        margin-top: 50px;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .inputarea{
+        display: flex;
+        border-radius: 25px;
+        overflow: hidden;
+    }
+    #task{
+        flex-grow: 1;
+        border: none;
+        background-color: #f0f4f8;
+        padding: 10px 15px;
+        outline: none;
+    }
+    .addbtn{
+        background-color: #00c787;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+    ul{
+        list-style-type: none;
+        padding: 0;
+    }
+    ul li{
+        display: flex;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+    ul li label{
+        flex-grow: 1;
+    }
+    .check{
+        margin-right: 15px;
+    }
+    .trashcan{
+        background: none;
+        border: none;
+        opacity: 0.5;
+        cursor: pointer;
+    }
+    .trashcan:hover{
+        opacity: 1;
+    }
+</style>
+<body>
+    <div class="panel">
+        <div class="inputarea">
+            <input type="text" id="task" placeholder="輸入待辦事項">
+            <button class="addbtn" onclick="addTask()">+</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div> 
+</body>
+</html>
+<script>
+    const inputTask = document.getElementById('task');
+    inputTask.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            addTask();
+        }
+    });
+    function addTask() {
+        const input = document.getElementById('task');
+        const task = input.value;
+        if (task === '') {
+            return;
+        }
+        const taskList = document.getElementById('taskList');
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <input class="check" type="checkbox">
+            <label>${task}</label>
+            <button class="trashcan" onclick="removeTask(this)">🗑️</button>`;
+        const trashcan = li.querySelector('button');
+        trashcan.addEventListener('click', function() {
+            li.remove();
+        });
+        const checkbox = li.querySelector('input');
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                li.style.textDecoration = 'line-through';
+                li.style.color = '#999';
+                taskList.append(li);
+            } else {
+                li.style.textDecoration = 'none';
+                li.style.color = '';
+                taskList.prepend(li);
+            }
+        });
+        // li.textContent = task;
+        taskList.append(li);
+        input.value = '';
+    }
+
+    
+</script>
