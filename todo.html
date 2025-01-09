@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>待辦事項</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <style>
     body{
@@ -74,44 +75,51 @@
 </body>
 </html>
 <script>
-    const inputTask = document.getElementById('task');
-    inputTask.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            addTask();
-        }
-    });
-    function addTask() {
-        const input = document.getElementById('task');
-        const task = input.value;
-        if (task === '') {
-            return;
-        }
-        const taskList = document.getElementById('taskList');
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <input class="check" type="checkbox">
-            <label>${task}</label>
-            <button class="trashcan" onclick="removeTask(this)">🗑️</button>`;
-        const trashcan = li.querySelector('button');
-        trashcan.addEventListener('click', function() {
-            li.remove();
-        });
-        const checkbox = li.querySelector('input');
-        checkbox.addEventListener('change', function() {
-            if (checkbox.checked) {
-                li.style.textDecoration = 'line-through';
-                li.style.color = '#999';
-                taskList.append(li);
-            } else {
-                li.style.textDecoration = 'none';
-                li.style.color = '';
-                taskList.prepend(li);
+    $(document).ready(function() {
+        $('#task').on('keypress', function(event) {
+            if (event.key === 'Enter') {
+                addTask();
             }
         });
-        // li.textContent = task;
-        taskList.append(li);
-        input.value = '';
-    }
 
-    
+        $('.addbtn').on('click', function() {
+            addTask();
+        });
+
+        function addTask() {
+            const task = $('#task').val();
+            if (task === '') {
+                return;
+            }
+            const taskList = $('#taskList');
+            const li = $('<li></li>').html(`
+                <input class="check" type="checkbox">
+                <label>${task}</label>
+                <button class="trashcan">🗑️</button>
+            `);
+
+            li.find('.trashcan').on('click', function() {
+                li.remove();
+            });
+
+            li.find('.check').on('change', function() {
+                if ($(this).is(':checked')) {
+                    li.css({
+                        'text-decoration': 'line-through',
+                        'color': '#999'
+                    });
+                    taskList.append(li);
+                } else {
+                    li.css({
+                        'text-decoration': 'none',
+                        'color': ''
+                    });
+                    taskList.prepend(li);
+                }
+            });
+
+            taskList.append(li);
+            $('#task').val('');
+        }
+    });
 </script>
