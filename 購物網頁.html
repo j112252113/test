@@ -274,6 +274,39 @@
             font-size: 1.2rem;
             cursor: pointer;
         }
+		
+		.notlogin{
+			display: inline-block;
+		}
+		
+		.logined{
+			display: none;
+		}
+
+        #orderlistModal table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        }
+
+        #orderlistModal th, #orderlistModal td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+        }
+
+        #orderlistModal th {
+        background-color: #ff5349;
+        color: white;
+        }
+
+        #orderlistModal tr:nth-child(even) {
+        background-color: #f2f2f2;
+        }
+
+        #orderlistModal tr:hover {
+        background-color: #ddd;
+        }
     </style>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -290,8 +323,14 @@
             <div class="cart" data-count="5">
                 <img src="https://cdn-icons-png.flaticon.com/512/126/126510.png" alt="購物車" width="30"/>
             </div>
+			<div class="notlogin">
             <button id="loginBtn">登入</button>
-            <button id="registerBtn">註冊</button>
+			<button id="registerBtn">註冊</button>
+			</div>
+			<div class="logined">
+			<button id="logoutBtn">登出</button>
+			<button id="orderlistBtn">我的訂單</button>
+			</div>         
         </div>
     </header>
 
@@ -300,40 +339,16 @@
         <nav>
             <h2>商品分類</h2>
             <ul id="categoryList">
-                <li>假期優惠</li>
-                <li>聖誕禮物</li>
-                <li>冬季服飾</li>
-                <li>電子產品</li>
-                <li>廚房用品</li>
-                <li>家用裝飾</li>
-                <li>玩具與遊戲</li>
             </ul>
+    </nav>
+        </ul>
         </nav>
-
         <!-- 主內容區 -->
         <main>
             <div class="product-grid" id="productGrid">
-                <div class="product">
-                    <img src="https://via.placeholder.com/150?text=product1"/>
-                    <div class="name">商品1</div>
-                    <div class="price">150</div>
-                    <button class="add-to-cart">加入購物車</button>
-                </div>
-                <div class="product">
-                    <img src="https://via.placeholder.com/150?text=product2"/>
-                    <div class="name">商品2</div>
-                    <div class="price">880</div>
-                    <button class="add-to-cart">加入購物車</button>
-                </div>
             </div>
 
             <div class="pagination">
-                <a href="#">上一頁</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">下一頁</a>
             </div>
         </main>
     </div>
@@ -363,39 +378,307 @@
         </div>
         <button>註冊</button>
     </div>
-
+    <div class="modal" id="orderlistModal">
+        <button class="close-modal">&times;</button>
+        <h2>我的訂單</h2>
+        <table>
+            <thead>
+            <tr>
+            <th>訂單編號</th>
+            <th>訂單日期</th>
+            <th>訂單狀態</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal" id="productDetailModal">
+        <button class="close-modal">&times;</button>
+        <h2 id="productDetailName">商品名稱</h2>
+        <img id="productDetailImage" src="https://via.placeholder.com/150" alt="商品圖片" />
+        <p id="productDetailDescription">商品介紹將顯示在這裡。</p>
+        <ul id="productDetailSpecs">
+            <li>規格1</li>
+            <li>規格2</li>
+            <li>規格3</li>
+        </ul>
+        <div class="price" id="productDetailPrice">NT$0</div>
+        <button class="add-to-cart">加入購物車</button>
+    </div>
     <script>
         $(document).ready(function () {
+            // 從後端動態加載商品分類
+            // function loadCategoriesFromServer() {
+            //     $.ajax({
+            //         url: '/api/getCategories', // 替換成您的後端API路徑
+            //         method: 'GET',
+            //         success: function (response) {
+            //             // 假設伺服器返回的資料格式如下：
+            //             // response = { categories: ['分類1', '分類2', ...] }
+            //             const categories = response.categories;
+            //             const categoryList = $('#categoryList');
+            //             categoryList.empty(); // 清空之前的分類內容
+            //             categories.forEach(category => {
+            //                 categoryList.append(`<li>${category}</li>`);
+            //             });
+            //         },
+            //         error: function () {
+            //             alert('無法加載商品分類，請稍後重試。');
+            //         }
+            //     });
+            // }
+            function loadCategoriesFromServer() {
+                // 模擬商品分類
+                const categories = ['假期優惠', '聖誕禮物', '冬季服飾', '廚房用品', '家居裝飾', '寵物用品'];
+                const categoryList = $('#categoryList');
+                categories.forEach(category => {
+                    categoryList.append(`<li>${category}</li>`);
+                });
+            }
+
+            // 從後端動態加載產品資料
+            // function loadProductsFromServer() {
+            //     $.ajax({
+            //         url: '/api/getProducts', // 替換成您的後端API路徑
+            //         method: 'GET',
+            //         success: function (response) {
+            //             // 假設伺服器返回的資料格式如下：
+            //             // response = { products: [{ id, name, price, image }, ...] }
+            //             const products = response.products;
+            //             const productGrid = $('#productGrid');
+            //             productGrid.empty(); // 清空之前的產品內容
+            //             products.forEach(product => {
+            //                 const productHTML = `
+            //                     <div class="product">
+            //                         <img src="${product.image}" />
+            //                         <div class="name">${product.name}</div>
+            //                         <div class="price">${product.price}</div>
+            //                         <button class="add-to-cart">加入購物車</button>
+            //                     </div>
+            //                 `;
+            //                 productGrid.append(productHTML);
+            //             });
+            //         },
+            //         error: function () {
+            //             alert('無法加載產品資料，請稍後重試。');
+            //         }
+            //     });
+            // }
+            function loadProductsFromServer() {
+                // 模擬商品資料
+                const products = [
+                    { name: '商品1', price: 100, image: 'https://via.placeholder.com/150' },
+                    { name: '商品2', price: 200, image: 'https://via.placeholder.com/150' },
+                    { name: '商品3', price: 300, image: 'https://via.placeholder.com/150' },
+                    { name: '商品4', price: 400, image: 'https://via.placeholder.com/150' },
+                    { name: '商品5', price: 500, image: 'https://via.placeholder.com/150' },
+                    { name: '商品6', price: 600, image: 'https://via.placeholder.com/150' },
+                    { name: '商品7', price: 700, image: 'https://via.placeholder.com/150' },
+                    { name: '商品8', price: 800, image: 'https://via.placeholder.com/150' },
+                    { name: '商品9', price: 900, image: 'https://via.placeholder.com/150' },
+                    { name: '商品10', price: 1000, image: 'https://via.placeholder.com/150' }
+                ];
+
+                // 動態填充商品資料
+                products.forEach(product => {
+                    const productCard = `
+                        <div class="product">
+                            <img src="${product.image}" alt="${product.name}" />
+                            <div class="name">${product.name}</div>
+                            <div class="price">NT$${product.price}</div>
+                            <button class="add-to-cart">加入購物車</button>
+                        </div>
+                    `;
+                    $('#productGrid').append(productCard);
+                });
+            }
+            //從後端動態加載分頁資料
+            // function loadPagesFromServer() {
+            //     $.ajax({
+            //         url: '/api/getPages', // 替換成您的後端API路徑
+            //         method: 'GET',
+            //         success: function (response) {
+            //             // 假設伺服器返回的資料格式如下：
+            //             // response = { totalpages: 5] }
+            //             const totalPages = response.totalpages;
+            //             const pagination = $('.pagination');
+            //             pagination.empty(); // 清空之前的分頁內容
+            //             for (let i = 1; i <= totalPages; i++) {
+            //                 pagination.append(`<a href="#">${i}</a>`);
+            //             }
+            //         },
+            //         error: function () {
+            //             alert('無法加載分頁資料，請稍後重試。');
+            //         }
+            //     });
+            // }
+            // 模擬分頁資料
+            function loadPagesFromServer() {
+                // 模擬分頁資料
+                const totalPages = 5;
+                for (let i = 1; i <= totalPages; i++) {
+                    $('.pagination').append(`<a href="#">${i}</a>`);
+                }
+            }
+
+            // 載入商品分類
+            loadCategoriesFromServer();
+            // 載入產品資料
+            loadProductsFromServer();
+            // 載入分頁資料
+            loadPagesFromServer();
+
+            // 頁次點擊事件
+            $('.pagination').on('click', 'a', function () {
+                alert('你點選了第 ' + $(this).text() + ' 頁');
+            });
+
+            // 商品分類點擊事件
+            $('#categoryList li').on('click', function () {
+                $('#categoryList li').removeClass('active');
+                $(this).addClass('active');
+                alert('你點選了 ' + $(this).text());
+            });
+        
             // 登入按鈕事件
             $('#loginBtn').on('click', function () {
                 $('.modal-overlay').fadeIn();
                 $('#loginModal').fadeIn();
             });
 
+            //登入連接後端檢查處理
+            $('#loginModal button').on('click', function () {
+                const username = $('#loginModal input[type="text"]').val();
+                const password = $('#loginModal input[type="password"]').val();
+                // 模擬登入成功
+                alert('登入成功！');
+                $('.notlogin').hide();
+                $('.logined').show();
+                $('.modal-overlay, .modal').fadeOut();
+                // $.ajax({
+                //     url: '/api/login', // 替換成您的 API 路徑
+                //     method: 'POST',
+                //     data: { username, password },
+                //     success: function (response) {
+                //         if (response.success) {
+                //             alert('登入成功！');
+                //             $('.notlogin').hide();
+                //             $('.logined').show();
+                //             $('.modal-overlay, .modal').fadeOut();
+                //         } else {
+                //             alert('登入失敗，請檢查帳號密碼。');
+                //         }
+                //     }
+                // });
+            });
+
+            // 登出按鈕事件
+            $('#logoutBtn').on('click', function () {
+                $('.notlogin').show();
+                $('.logined').hide();
+            });
+        
             // 註冊按鈕事件
             $('#registerBtn').on('click', function () {
                 $('.modal-overlay').fadeIn();
                 $('#registerModal').fadeIn();
             });
 
+            // $('#orderlistBtn').on('click', function () {
+            //     $.ajax({
+            //         url: '/api/getOrders', // 替換成您的 API 路徑
+            //         method: 'GET',
+            //         success: function (response) {
+            //             // 假設伺服器返回的訂單資料為 JSON 格式
+            //             $('#orderlistModal tbody').empty();
+            //             response.orders.forEach(order => {
+            //                 const orderRow = `
+            //                     <tr>
+            //                         <td>${order.id}</td>
+            //                         <td>${order.date}</td>
+            //                         <td>${order.status}</td>
+            //                     </tr>
+            //                 `;
+            //                 $('#orderlistModal tbody').append(orderRow);
+            //             });
+            //             $('.modal-overlay').fadeIn();
+            //             $('#orderlistModal').fadeIn();
+            //         }
+            //     });
+            // });
+
+            // 訂單按鈕事件
+            $('#orderlistBtn').on('click', function () {
+                // 清空之前的訂單內容
+                $('#orderlistModal tbody').empty();
+                // 模擬訂單資料
+                const orders = [
+                    { id: '202301', date: '2024-10-01', status: '已出貨' },
+                    { id: '202302', date: '2024-10-02', status: '未出貨' },
+                    { id: '202303', date: '2024-10-03', status: '已取消' }
+                ];
+
+                // 動態填充訂單資料
+                orders.forEach(order => {
+                    const orderRow = `
+                        <tr>
+                            <td>${order.id}</td>
+                            <td>${order.date}</td>
+                            <td>${order.status}</td>
+                        </tr>
+                    `;
+                    $('#orderlistModal tbody').append(orderRow);
+                });
+
+                // 顯示訂單視窗
+                $('.modal-overlay').fadeIn();
+                $('#orderlistModal').fadeIn();
+            });
+        
             // 關閉浮動視窗
             $('.close-modal, .modal-overlay').on('click', function () {
                 $('.modal-overlay, .modal').fadeOut();
             });
-
+        
             // 加入購物車功能
             $('.add-to-cart').on('click', function () {
                 let cartCount = parseInt($('.cart').attr('data-count'));
                 $('.cart').attr('data-count', cartCount + 1);
             });
-
+        
             // 驗證碼處理模擬
             $('#verifyBtn').on('click', function () {
                 setTimeout(function () {
                     $('#verifyIcon').fadeIn();
                 }, 2000); // 模擬延遲驗證成功
             });
+        
+            // 商品點擊顯示詳細資訊
+            $('.product').on('click', function () {
+                const name = $(this).find('.name').text();
+                const price = $(this).find('.price').text();
+                const image = $(this).find('img').attr('src');
+        
+                // 模擬詳細資訊
+                const description = name + ' 是一款高品質商品，適合您的需求！';
+                const specs = ['規格1: 高品質', '規格2: 節能設計', '規格3: 售後保固'];
+        
+                // 填入浮動視窗內容
+                $('#productDetailName').text(name);
+                $('#productDetailPrice').text(price);
+                $('#productDetailImage').attr('src', image);
+                $('#productDetailDescription').text(description);
+                $('#productDetailSpecs').empty();
+                specs.forEach(spec => {
+                    $('#productDetailSpecs').append('<li>' + spec + '</li>');
+                });
+        
+                // 顯示視窗
+                $('.modal-overlay').fadeIn();
+                $('#productDetailModal').fadeIn();
+            });
         });
-    </script>
+        </script>
 </body>
 </html>
