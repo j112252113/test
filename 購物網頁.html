@@ -283,28 +283,28 @@
 			display: none;
 		}
 
-        #orderlistModal table {
+        .list table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
         }
 
-        #orderlistModal th, #orderlistModal td {
+        .list th, .list td {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: center;
         }
 
-        #orderlistModal th {
+        .list th {
         background-color: #ff5349;
         color: white;
         }
 
-        #orderlistModal tr:nth-child(even) {
+        .list tr:nth-child(even) {
         background-color: #f2f2f2;
         }
 
-        #orderlistModal tr:hover {
+        .list tr:hover {
         background-color: #ddd;
         }
     </style>
@@ -360,7 +360,7 @@
         <h2>登入</h2>
         <input type="text" placeholder="帳號" />
         <input type="password" placeholder="密碼" />
-        <button>登入</button>
+        <button id="exeLoginBtn">登入</button>
     </div>
     <div class="modal" id="registerModal">
         <button class="close-modal">&times;</button>
@@ -376,9 +376,9 @@
             <button id="verifyBtn">驗證</button>
             <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" alt="驗證成功" id="verifyIcon" />
         </div>
-        <button>註冊</button>
+        <button id="exeRegisterBtn">註冊</button>
     </div>
-    <div class="modal" id="orderlistModal">
+    <div class="modal list" id="orderlistModal">
         <button class="close-modal">&times;</button>
         <h2>我的訂單</h2>
         <table>
@@ -392,6 +392,25 @@
             <tbody>
             </tbody>
         </table>
+    </div>
+    <!--購物車浮動視窗-->
+    <div class="modal list" id="cartModal">
+        <button class="close-modal">&times;</button>
+        <h2>購物車</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>商品名稱</th>
+                    <th>價格</th>
+                    <th>數量</th>
+                    <th>小計</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>  
+        </table>
+        <button>結帳</button>
     </div>
     <div class="modal" id="productDetailModal">
         <button class="close-modal">&times;</button>
@@ -548,7 +567,7 @@
             });
 
             //登入連接後端檢查處理
-            $('#loginModal button').on('click', function () {
+            $('#exeLoginBtn').on('click', function () {
                 const username = $('#loginModal input[type="text"]').val();
                 const password = $('#loginModal input[type="password"]').val();
                 // 模擬登入成功
@@ -577,12 +596,6 @@
             $('#logoutBtn').on('click', function () {
                 $('.notlogin').show();
                 $('.logined').hide();
-            });
-        
-            // 註冊按鈕事件
-            $('#registerBtn').on('click', function () {
-                $('.modal-overlay').fadeIn();
-                $('#registerModal').fadeIn();
             });
 
             // $('#orderlistBtn').on('click', function () {
@@ -646,13 +659,132 @@
                 let cartCount = parseInt($('.cart').attr('data-count'));
                 $('.cart').attr('data-count', cartCount + 1);
             });
+
+            // 註冊購物車按鈕事件(從後端取得購物車內容)
+            // $('.cart').on('click', function () {
+            //     $.ajax({
+            //         url: '/api/getCart', // 替換成您的 API 路徑
+            //         method: 'GET',
+            //         success: function (response) {
+            //             // 假設伺服器返回的購物車內容為 JSON 格式
+            //             const cartItems = response.cartItems;
+            //             // 清空之前的購物車(tbody,tfoot)內容 
+            //             $('#cartModal table tbody').empty();
+            //             $('#cartModal table tfoot').empty();
+            //             // 動態填充購物車內容
+            //             cartItems.forEach(item => {
+            //                 const cartRow = `
+            //                     <tr>
+            //                         <td>${item.name}</td>
+            //                         <td>${item.price}</td>
+            //                         <td>${item.quantity}</td>
+            //                         <td>${item.price * item.quantity}</td>
+            //                     </tr>
+            //                 `;
+            //                 $('#cartModal table tbody').append(cartRow);
+            //             });
+            //             // 計算總金額
+            //             const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            //             const totalRow = `
+            //                 <tr>
+            //                     <td colspan="3">總金額</td>
+            //                     <td>${total}</td>
+            //                 </tr>
+            //             `;
+            //             $('#cartModal table tfoot').append(totalRow);
+            //             $('.modal-overlay').fadeIn();
+            //             $('#cartModal').fadeIn();
+            //         }
+            //     });
+            // });
+            
+            //註冊購物車按鈕事件
+            $('.cart').on('click', function () {
+                // 模擬購物車內容
+                const cartItems = [
+                    { name: '商品1', price: 100, quantity: 1 },
+                    { name: '商品2', price: 200, quantity: 2 },
+                    { name: '商品3', price: 300, quantity: 3 }
+                ];
+                // 清空之前的購物車(tbody,tfoot)內容 
+                $('#cartModal table tbody').empty();
+                $('#cartModal table tfoot').empty();
+                // 動態填充購物車內容
+                cartItems.forEach(item => {
+                    const cartRow = `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.price}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.price * item.quantity}</td>
+                        </tr>
+                    `;
+                    $('#cartModal table tbody').append(cartRow);
+                });
+                // 計算總金額
+                const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+                const totalRow = `
+                    <tr>
+                        <td colspan="3">總金額</td>
+                        <td>${total}</td>
+                    </tr>
+                `;
+                $('#cartModal table tfoot').append(totalRow);
+                // 顯示購物車視窗
+                $('.modal-overlay').fadeIn();
+                $('#cartModal').fadeIn();
+            });
+
+            // 註冊按鈕事件
+            $('#registerBtn').on('click', function () {
+                $('.modal-overlay').fadeIn();
+                $('#registerModal').fadeIn();
+                $('#exeRegisterBtn').prop('disabled', true);
+            });
         
             // 驗證碼處理模擬
             $('#verifyBtn').on('click', function () {
                 setTimeout(function () {
                     $('#verifyIcon').fadeIn();
+                    //使註冊按鈕可以按
+                    $('#exeRegisterBtn').prop('disabled', false);
                 }, 2000); // 模擬延遲驗證成功
             });
+
+            // 模擬註冊按鈕成功事件
+            $('#exeRegisterBtn').on('click', function () {
+                alert('註冊成功！');
+                $('.notlogin').hide();
+                $('.logined').show();
+                $('.modal-overlay, .modal').fadeOut();
+            });
+
+            // 註冊按鈕事件 (從後端註冊)
+            // $('#exeRegisterBtn').on('click', function () {
+            //     const name = $('#registerModal input[type="text"]').val();
+            //     const email = $('#registerModal input[type="email"]').val();
+            //     const phone = $('#registerModal input[type="tel"]').val();
+            //     // 模擬註冊成功
+            //     alert('註冊成功！');
+            //     $('.notlogin').hide();
+            //     $('.logined').show();
+            //     $('.modal-overlay, .modal').fadeOut();
+            //     // $.ajax({
+            //         url: '/api/register', // 替換成您的 API 路徑
+            //         method: 'POST',
+            //         data: { name, email, phone },
+            //         success: function (response) {
+            //             if (response.success) {
+            //                 alert('註冊成功！');
+            //                 $('.notlogin').hide();
+            //                 $('.logined').show();
+            //                 $('.modal-overlay, .modal').fadeOut();
+            //             } else {
+            //                 alert('註冊失敗，請檢查資料是否正確。');
+            //             }
+            //         }
+            //     });
+            // });
         
             // 商品點擊顯示詳細資訊
             $('.product').on('click', function () {
