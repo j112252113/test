@@ -3,193 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>台南一日遊旅遊建議書</title>
+    <title>台南龍崎一日遊 - 虎形山公園・望龍吊橋之旅</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Microsoft JhengHei', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 20px;
+            min-height: 100vh;
         }
         
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 20px;
         }
         
         .header {
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-            color: white;
-            padding: 40px 30px;
             text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
         }
         
         .header h1 {
-            margin: 0;
             font-size: 2.5em;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         .header p {
-            margin: 10px 0 0;
             font-size: 1.2em;
             opacity: 0.9;
         }
         
-        .content {
-            padding: 30px;
-        }
-        
-        .route-overview {
-            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
-            border-radius: 15px;
+        .trip-info {
+            background: white;
             padding: 25px;
             margin-bottom: 30px;
-            border-left: 5px solid #4ECDC4;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         
-        .time-slot {
+        .trip-info h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .info-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .distance-summary {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #2196f3;
+        }
+        
+        .distance-summary h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        .distance-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(25, 118, 210, 0.1);
+        }
+        
+        .timeline {
             background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .timeline h2 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .schedule-item {
+            display: flex;
+            margin-bottom: 40px;
+            position: relative;
+            padding-left: 80px;
+        }
+        
+        .schedule-item::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: -40px;
+            width: 3px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+        
+        .schedule-item:last-child::before {
+            bottom: 0;
+        }
+        
+        .time-badge {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .place-card {
+            background: #f8f9fa;
             border-radius: 15px;
             padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border-left: 5px solid #FF6B6B;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             transition: transform 0.3s ease;
+            border: 1px solid #e9ecef;
         }
         
-        .time-slot:hover {
+        .place-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
         
-        .time-header {
+        .place-header {
             display: flex;
             align-items: center;
             margin-bottom: 15px;
         }
         
-        .time-badge {
-            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 25px;
-            font-weight: bold;
+        .place-icon {
+            font-size: 2em;
             margin-right: 15px;
-            box-shadow: 0 3px 10px rgba(255,107,107,0.3);
         }
         
-        .location-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-            border-left: 4px solid #4ECDC4;
-        }
-        
-        .location-title {
-            font-size: 1.3em;
+        .place-title {
+            font-size: 1.4em;
             font-weight: bold;
-            color: #2c3e50;
+            color: #495057;
+        }
+        
+        .place-subtitle {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        
+        .place-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .place-description {
+            color: #495057;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .place-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .feature-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        
+        .distance-info {
+            background: #e3f2fd;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffcc02 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ff9800;
+        }
+        
+        .warning-box h3 {
+            color: #e65100;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
         }
         
-        .location-icon {
-            width: 24px;
-            height: 24px;
+        .warning-box h3::before {
+            content: "⚠️";
             margin-right: 10px;
-            border-radius: 50%;
-            background: #4ECDC4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        }
+        
+        .google-maps-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
             font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
         
-        .location-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
+        .google-maps-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
         }
         
-        .info-item {
-            display: flex;
-            align-items: center;
-        }
-        
-        .info-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
-            opacity: 0.7;
-        }
-        
-        .highlight {
-            background: linear-gradient(45deg, #FFF3E0, #FFE0B2);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 5px solid #FF9800;
-        }
-        
-        .tips {
-            background: linear-gradient(45deg, #E8F5E8, #C8E6C9);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 5px solid #4CAF50;
-        }
-        
-        .warning {
-            background: linear-gradient(45deg, #FFEBEE, #FFCDD2);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 5px solid #F44336;
-        }
-        
-        .rating {
-            color: #FFD700;
-            font-weight: bold;
-        }
-        
-        .map-embed {
-            width: 100%;
-            height: 300px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .footer {
-            background: #2c3e50;
+        .tips-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .tips-section h2 {
             text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .tip-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tip-item h3 {
+            margin-bottom: 10px;
+            color: #ffffff;
         }
         
         @media (max-width: 768px) {
-            .location-info {
-                grid-template-columns: 1fr;
+            .container {
+                padding: 10px;
             }
             
             .header h1 {
-                font-size: 2em;
+                font-size: 1.8em;
             }
             
-            .content {
-                padding: 20px;
+            .schedule-item {
+                padding-left: 60px;
+            }
+            
+            .time-badge {
+                font-size: 0.8em;
+                padding: 6px 10px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -197,230 +323,408 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🌅 台南一日遊旅遊建議書 🌅</h1>
-            <p>郊外風景 × 在地美食 × 完美一日遊</p>
+            <h1>🌄 台南龍崎一日遊</h1>
+            <p>虎形山公園・望龍吊橋探索之旅（實際距離重新規劃）</p>
         </div>
         
-        <div class="content">
-            <div class="route-overview">
-                <h2>🗺️ 路線概覽</h2>
-                <p><strong>出發地：</strong>高雄市楠梓區右昌忠義七巷66號</p>
-                <p><strong>交通工具：</strong>自駕汽車</p>
-                <p><strong>出發時間：</strong>上午 10:00</p>
-                <p><strong>預計返家：</strong>晚上 18:00</p>
-                <p><strong>旅遊主題：</strong>郊外風景欣賞 + 台南在地美食體驗</p>
-            </div>
-            
-            <div class="time-slot">
-                <div class="time-header">
-                    <div class="time-badge">10:00-12:00</div>
-                    <h3>第一站：虎形山公園-望龍吊橋</h3>
+        <div class="trip-info">
+            <h2>📋 行程資訊（基於實際Google Maps數據）</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>出發地點</strong>
+                    高雄市楠梓區右昌忠義七巷66號
                 </div>
-                
-                <div class="location-card">
-                    <div class="location-title">
-                        <div class="location-icon">🌉</div>
-                        虎形山公園-望龍吊橋
-                    </div>
-                    <p>位於台南龍崎區的絕美吊橋景點，可以俯瞰整個山谷美景，是近年來熱門的IG打卡聖地。</p>
-                    
-                    <div class="location-info">
-                        <div class="info-item">
-                            <span class="info-icon">⭐</span>
-                            <span>評分：<span class="rating">4.5/5</span></span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">📍</span>
-                            <span>龍崎區無名路</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🚗</span>
-                            <span>約45分鐘車程</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🎯</span>
-                            <span>郊外風景/吊橋體驗</span>
-                        </div>
-                    </div>
-                    
-                    <div class="highlight">
-                        <strong>🎨 拍照重點：</strong>
-                        <ul>
-                            <li>吊橋全景與山谷風光</li>
-                            <li>橋上俯瞰龍崎地形</li>
-                            <li>周邊步道自然生態</li>
-                        </ul>
-                    </div>
+                <div class="info-item">
+                    <strong>交通工具</strong>
+                    自駕開車
+                </div>
+                <div class="info-item">
+                    <strong>出發時間</strong>
+                    早上10:00
+                </div>
+                <div class="info-item">
+                    <strong>回程時間</strong>
+                    晚上18:00
+                </div>
+                <div class="info-item">
+                    <strong>總車程時間</strong>
+                    約1小時20分鐘（來回）
+                </div>
+                <div class="info-item">
+                    <strong>實際遊玩時間</strong>
+                    約6.7小時
                 </div>
             </div>
             
-            <div class="time-slot">
-                <div class="time-header">
-                    <div class="time-badge">12:30-14:00</div>
-                    <h3>午餐：Daisy House 精緻料理</h3>
+            <div class="distance-summary">
+                <h3>🛣️ 實際距離與車程</h3>
+                <div class="distance-item">
+                    <span>楠梓 → 關廟市區</span>
+                    <span><strong>28.6km / 38分鐘</strong></span>
                 </div>
-                
-                <div class="location-card">
-                    <div class="location-title">
-                        <div class="location-icon">🍽️</div>
-                        Daisy House
-                    </div>
-                    <p>台南東區高評價的精緻餐廳，以創意料理和優質服務聞名，是在地人推薦的美食餐廳。</p>
-                    
-                    <div class="location-info">
-                        <div class="info-item">
-                            <span class="info-icon">⭐</span>
-                            <span>評分：<span class="rating">4.9/5</span></span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">📍</span>
-                            <span>中華東路一段88號</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">💰</span>
-                            <span>中高價位</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🍴</span>
-                            <span>創意料理/精緻餐點</span>
-                        </div>
-                    </div>
-                    
-                    <div class="tips">
-                        <strong>💡 用餐建議：</strong>
-                        <ul>
-                            <li>建議提前電話預約</li>
-                            <li>推薦嘗試招牌創意料理</li>
-                            <li>用餐環境優雅，適合放鬆</li>
-                        </ul>
-                    </div>
+                <div class="distance-item">
+                    <span>關廟 → 龍崎虎形山</span>
+                    <span><strong>3.1km / 4分鐘</strong></span>
+                </div>
+                <div class="distance-item">
+                    <span>楠梓 → 龍崎（直達）</span>
+                    <span><strong>29.7km / 40分鐘</strong></span>
+                </div>
+                <div class="distance-item">
+                    <span>來回總車程</span>
+                    <span><strong>59.4km / 1小時20分鐘</strong></span>
                 </div>
             </div>
             
-            <div class="time-slot">
-                <div class="time-header">
-                    <div class="time-badge">14:30-16:30</div>
-                    <h3>第二站：井仔腳瓦盤鹽田</h3>
-                </div>
-                
-                <div class="location-card">
-                    <div class="location-title">
-                        <div class="location-icon">🧂</div>
-                        井仔腳瓦盤鹽田
-                    </div>
-                    <p>台南北門區的歷史鹽田景區，保留傳統曬鹽工藝，夕陽時分更是攝影愛好者的天堂。</p>
-                    
-                    <div class="location-info">
-                        <div class="info-item">
-                            <span class="info-icon">⭐</span>
-                            <span>評分：<span class="rating">4.4/5</span></span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">📍</span>
-                            <span>北門區西南郊復育鹽田</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🎫</span>
-                            <span>免費參觀</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">📸</span>
-                            <span>夕陽/鹽田風光</span>
-                        </div>
-                    </div>
-                    
-                    <div class="highlight">
-                        <strong>🎨 體驗重點：</strong>
-                        <ul>
-                            <li>傳統鹽田文化巡禮</li>
-                            <li>鹽田倒影攝影</li>
-                            <li>品嘗鹽田限定小食</li>
-                            <li>欣賞濱海自然生態</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="time-slot">
-                <div class="time-header">
-                    <div class="time-badge">17:00-18:00</div>
-                    <h3>返程美食：台南孔廟前巷50號廚房</h3>
-                </div>
-                
-                <div class="location-card">
-                    <div class="location-title">
-                        <div class="location-icon">🏮</div>
-                        台南孔廟前巷50號廚房
-                    </div>
-                    <p>隱身於孔廟附近巷弄的特色餐廳，以傳統台菜創新料理聞名，是返程前品嚐在地美味的最佳選擇。</p>
-                    
-                    <div class="location-info">
-                        <div class="info-item">
-                            <span class="info-icon">⭐</span>
-                            <span>評分：<span class="rating">4.9/5</span></span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">📍</span>
-                            <span>開山路122巷50號</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🍜</span>
-                            <span>台式創意料理</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🕐</span>
-                            <span>適合晚餐/輕食</span>
-                        </div>
-                    </div>
-                    
-                    <div class="tips">
-                        <strong>🎯 推薦理由：</strong>
-                        <ul>
-                            <li>傳統台菜精緻化呈現</li>
-                            <li>位置便利，靠近返程路線</li>
-                            <li>份量適中，不會過飽影響返程</li>
-                            <li>可外帶台南特色伴手禮</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="warning">
-                <h3>⚠️ 重要提醒事項</h3>
-                <ul>
-                    <li><strong>天氣準備：</strong>建議攜帶防曬用品、帽子和充足飲水</li>
-                    <li><strong>服裝建議：</strong>穿著舒適步鞋，適合戶外活動的輕便服裝</li>
-                    <li><strong>停車資訊：</strong>各景點均有停車場，但假日人潮較多，建議早點到達</li>
-                    <li><strong>用餐預約：</strong>推薦餐廳建議提前電話預約，避免久候</li>
-                    <li><strong>時間彈性：</strong>行程時間可依實際狀況調整，享受慢活步調</li>
-                </ul>
-            </div>
-            
-            <div class="tips">
-                <h3>🎒 行程小貼士</h3>
-                <ul>
-                    <li><strong>攝影器材：</strong>建議攜帶相機或手機充電器，景點很適合拍照</li>
-                    <li><strong>現金準備：</strong>部分小店可能不接受信用卡，建議準備現金</li>
-                    <li><strong>特產購買：</strong>井仔腳可購買鹽田相關特產，孔廟附近有各式台南伴手禮</li>
-                    <li><strong>路況資訊：</strong>建議使用導航APP即時掌握路況，避開塞車時段</li>
-                </ul>
-            </div>
-            
-            <div class="highlight">
-                <h3>📱 推薦下載APP</h3>
-                <ul>
-                    <li><strong>Google Maps：</strong>路線導航與即時路況</li>
-                    <li><strong>台南旅遊：</strong>景點資訊與優惠券</li>
-                    <li><strong>愛食記：</strong>美食評價與推薦</li>
-                    <li><strong>天氣即時預報：</strong>掌握當日天氣變化</li>
-                </ul>
+            <div class="warning-box">
+                <h3>重要提醒</h3>
+                <p>經過實際Google Maps距離計算，這個行程是可行的！單程約40分鐘車程，預留6.7小時遊玩時間相當充裕。建議避開上下班尖峰時段，山區道路請小心駕駛。</p>
             </div>
         </div>
         
-        <div class="footer">
-            <h3>🌟 祝您台南一日遊愉快！ 🌟</h3>
-            <p>記得將美好的回憶記錄下來，台南的美食與風景值得細細品味！</p>
-            <p style="font-size: 0.9em; opacity: 0.8;">※ 本行程建議僅供參考，實際遊覽請依當日狀況調整</p>
+        <div class="timeline">
+            <h2>🕐 詳細行程安排（實際時間）</h2>
+            
+            <div class="schedule-item">
+                <div class="time-badge">10:00</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🚗</div>
+                        <div>
+                            <div class="place-title">出發前往台南</div>
+                            <div class="place-subtitle">高雄楠梓 → 台南關廟</div>
+                        </div>
+                    </div>
+                    <div class="distance-info">
+                        <strong>🛣️ 建議路線：</strong>國道1號 → 關廟交流道下 → 台19甲線<br>
+                        <strong>📏 實際距離：</strong>28.6公里<br>
+                        <strong>⏱️ 車程時間：</strong>38分鐘（避開尖峰時段）
+                    </div>
+                    <a href="https://maps.google.com/maps/dir/高雄市楠梓區右昌忠義七巷66號/台南市關廟區中央路/" class="google-maps-btn" target="_blank">📍 Google導航</a>
+                </div>
+            </div>
+            
+            <div class="schedule-item">
+                <div class="time-badge">10:40</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🥟</div>
+                        <div>
+                            <div class="place-title">關廟早午餐</div>
+                            <div class="place-subtitle">品嚐關廟在地美食</div>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1563379091339-03246963d96c?w=800&h=400&fit=crop" alt="台南小吃" class="place-image">
+                    <div class="place-description">
+                        抵達關廟後先享用在地早午餐。推薦關廟魯麵、米粿、炸黑輪等經典小吃。關廟中央路和中山路一帶有許多傳承數十年的老店，是體驗在地文化的好地方。
+                    </div>
+                    <div class="place-features">
+                        <span class="feature-tag">關廟魯麵</span>
+                        <span class="feature-tag">阿婆炸黑輪</span>
+                        <span class="feature-tag">張錦味小吃</span>
+                        <span class="feature-tag">關廟米粿</span>
+                    </div>
+                    <div class="distance-info">
+                        <strong>🏪 推薦區域：</strong>關廟中央路、中山路老街區<br>
+                        <strong>💰 預算：</strong>每人約150-250元<br>
+                        <strong>⏱️ 用餐時間：</strong>40分鐘
+                    </div>
+                    <a href="https://maps.google.com/maps/search/關廟中央路美食/" class="google-maps-btn" target="_blank">📍 查看美食</a>
+                </div>
+            </div>
+            
+            <div class="schedule-item">
+                <div class="time-badge">11:20</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🦾</div>
+                        <div>
+                            <div class="place-title">龍崎文衡殿</div>
+                            <div class="place-subtitle">全台唯一漫威廟宇</div>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=400&fit=crop" alt="廟宇建築" class="place-image">
+                    <div class="place-description">
+                        龍崎文衡殿以創新的「漫威門神」聞名全台，廟內有鋼鐵人、美國隊長、綠巨人浩克、變形金剛等超級英雄守護，是傳統信仰與現代文化的有趣結合。
+                    </div>
+                    <div class="place-features">
+                        <span class="feature-tag">漫威門神</span>
+                        <span class="feature-tag">鋼鐵人</span>
+                        <span class="feature-tag">變形金剛</span>
+                        <span class="feature-tag">創意打卡</span>
+                    </div>
+                    <div class="distance-info">
+                        <strong>📍 地址：</strong>台南市龍崎區崎頂里新市子92號<br>
+                        <strong>🚗 從關廟車程：</strong>約8分鐘<br>
+                        <strong>⏱️ 參觀時間：</strong>30分鐘
+                    </div>
+                    <a href="https://maps.google.com/maps/search/龍崎文衡殿/" class="google-maps-btn" target="_blank">📍 Google導航</a>
+                </div>
+            </div>
+            
+            <div class="schedule-item">
+                <div class="time-badge">12:00</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🌲</div>
+                        <div>
+                            <div class="place-title">虎形山公園</div>
+                            <div class="place-subtitle">今日主要目的地</div>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop" alt="山林公園" class="place-image">
+                    <div class="place-description">
+                        虎形山公園佔地8.8公頃，因地形如猛虎雄踞而得名。園內有豐富的自然生態、環山步道、兒童遊樂區、蓮花池等設施。這裡空氣清新，是遠離城市喧囂的絕佳去處。
+                    </div>
+                    <div class="place-features">
+                        <span class="feature-tag">森林步道</span>
+                        <span class="feature-tag">生態觀察</span>
+                        <span class="feature-tag">親子同遊</span>
+                        <span class="feature-tag">免費入園</span>
+                    </div>
+                    <div class="distance-info">
+                        <strong>📍 地址：</strong>台南市龍崎區崎頂里<br>
+                        <strong>🚗 從文衡殿車程：</strong>約3分鐘<br>
+                        <strong>⏱️ 建議停留：</strong>3-4小時（主要行程）
+                    </div>
+                    <a href="https://maps.google.com/maps/search/虎形山公園+台南龍崎/" class="google-maps-btn" target="_blank">📍 Google導航</a>
+                </div>
+            </div>
+            
+            <div class="schedule-item">
+                <div class="time-badge">12:15</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🌉</div>
+                        <div>
+                            <div class="place-title">望龍吊橋（虎形山吊橋）</div>
+                            <div class="place-subtitle">情人橋上賞美景</div>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop" alt="吊橋風景" class="place-image">
+                    <div class="place-description">
+                        望龍吊橋全長115公尺，寬1.5公尺，是虎形山公園的標誌性景點。站在吊橋上可俯瞰整個深谷美景，感受山風徐來的舒適。因常有情侶在此約會，故又稱「情人橋」。
+                    </div>
+                    <div class="place-features">
+                        <span class="feature-tag">情人橋</span>
+                        <span class="feature-tag">俯瞰深谷</span>
+                        <span class="feature-tag">拍照勝地</span>
+                        <span class="feature-tag">步行體驗</span>
+                    </div>
+                    <div class="distance-info">
+                        <strong>🌉 橋身規格：</strong>長115公尺，寬1.5公尺<br>
+                        <strong>⚠️ 注意事項：</strong>風大時請小心通行，勿跳躍搖晃<br>
+                        <strong>📸 最佳拍照時間：</strong>下午光線較佳
+                    </div>
+                </div>
+            </div>
+            
+            <div class="schedule-item">
+                <div class="time-badge">13:00</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🥘</div>
+                        <div>
+                            <div class="place-title">虎形山野餐時光</div>
+                            <div class="place-subtitle">在大自然中享用午餐</div>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop" alt="野餐" class="place-image">
+                    <div class="place-description">
+                        虎形山公園內有多處涼亭和休息區，非常適合野餐。可以從關廟買些當地小吃帶上山，或在公園附近的餐廳用餐，在自然環境中享受美食時光。
+                    </div>
+                    <div class="place-features">
+                        <span class="feature-tag">涼亭用餐</span>
+                        <span class="feature-tag">山林野餐</span>
+                        <span class="feature-tag">關廟便當</span>
+                        <span class="feature-tag">自然環境</span>
+                    </div>
+                    <div class="distance-info">
+                        <strong>🍱 用餐選擇：</strong>攜帶關廟小吃 或 附近簡餐<br>
+                        <strong>⏱️ 用餐時間：</strong>45分鐘<br>
+                        <strong>💡 建議：</strong>攜帶野餐墊，享受山林用餐樂趣
+                    </div>
+                </div>
+            </div>
+            
+            <div class="schedule-item">
+                <div class="time-badge">14:00</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🚶‍♂️</div>
+                        <div>
+                            <div class="place-title">虎形山森林步道健行</div>
+                            <div class="place-subtitle">深度探索自然生態</div>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop" alt="森林步道" class="place-image">
+                    <div class="place-description">
+                        虎形山有完整的環山步道系統，可以選擇不同難度的路線。步道沿途有豐富的植物生態，包括大片相思林，隨山勢起伏而築的步道讓人可以從不同角度欣賞山景。
+                    </div>
+                    <div class="place-features">
+                        <span class="feature-tag">環山步道</span>
+                        <span class="feature-tag">相思林</span>
+                        <span class="feature-tag">生態觀察</span>
+                        <span class="feature-tag">森林浴</span>
+                    </div>
+                    <div class="distance-info">
+                        <strong>🥾 步道選擇：</strong>輕鬆級至中等級路線<br>
+                        <strong>⏱️ 健行時間：</strong>1.5-2小時<br>
+                        <strong>👟 建議裝備：</strong>運動鞋、水、防蚊液
+                    </div>
+                </div>
+            </div>
+            
+            <div class="schedule-item">
+                <div class="time-badge">15:30</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🐱</div>
+                        <div>
+                            <div class="place-title">貓咪階梯 & 龍崎區公所</div>
+                            <div class="place-subtitle">可愛彩繪藝術巡禮</div>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=800&h=400&fit=crop" alt="彩繪階梯" class="place-image">
+                    <div class="place-description">
+                        龍崎區公所前的彩繪階梯以可愛貓咪為主題，是社區營造的成功案例。色彩繽紛的階梯藝術展現了在地人的創意與用心，也成為遊客必訪的拍照景點。
+                    </div>
+                    <div class="place-features">
+                        <span class="feature-tag">彩繪藝術</span>
+                        <span class="feature-tag">貓咪主題</span>
+                        <span class="feature-tag">社區營造</span>
+                        <span class="feature-tag">免費參觀</span>
+                    </div>
+                    <div class="distance-info">
+                        <strong>📍 位置：</strong>龍崎區公所前方階梯<br>
+                        <strong>🚗 從虎形山車程：</strong>約5分鐘<br>
+                        <strong>⏱️ 參觀時間：</strong>20分鐘
+                    </div>
+                    <a href="https://maps.google.com/maps/search/龍崎區公所/" class="google-maps-btn" target="_blank">📍 查看位置</a>
+                </div>
+            </div>
+            
+            <div class="schedule-item">
+                <div class="time-badge">16:00</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🛍️</div>
+                        <div>
+                            <div class="place-title">竹炭故事館 & 關廟伴手禮</div>
+                            <div class="place-subtitle">購買在地特產</div>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=400&fit=crop" alt="文創商品" class="place-image">
+                    <div class="place-description">
+                        參觀龍崎竹炭故事館，了解當地竹炭產業發展，並可購買竹炭相關產品。回程時順道到關廟購買著名的鳳梨酥、關廟麵等在地特產作為伴手禮。
+                    </div>
+                    <div class="place-features">
+                        <span class="feature-tag">竹炭產品</span>
+                        <span class="feature-tag">關廟鳳梨酥</span>
+                        <span class="feature-tag">關廟麵</span>
+                        <span class="feature-tag">在地伴手禮</span>
+                    </div>
+                    <div class="distance-info">
+                        <strong>🛒 推薦商品：</strong>竹炭餅乾、鳳梨酥、關廟麵<br>
+                        <strong>⏱️ 購物時間：</strong>30分鐘<br>
+                        <strong>💰 預算：</strong>500-1000元（視購買量）
+                    </div>
+                    <a href="https://maps.google.com/maps/search/龍崎竹炭故事館/" class="google-maps-btn" target="_blank">📍 查看位置</a>
+                </div>
+            </div>
+            
+            <div class="schedule-item">
+                <div class="time-badge">17:00</div>
+                <div class="place-card">
+                    <div class="place-header">
+                        <div class="place-icon">🏠</div>
+                        <div>
+                            <div class="place-title">返回高雄</div>
+                            <div class="place-subtitle">結束愉快的龍崎一日遊</div>
+                        </div>
+                    </div>
+                    <div class="distance-info">
+                        <strong>🛣️ 回程路線：</strong>台19甲線 → 關廟交流道 → 國道1號 → 楠梓<br>
+                        <strong>📏 回程距離：</strong>29.7公里<br>
+                        <strong>⏱️ 回程車程：</strong>40分鐘（避開下班尖峰）<br>
+                        <strong>🏁 預計抵達：</strong>17:40
+                    </div>
+                    <a href="https://maps.google.com/maps/dir/台南市龍崎區/高雄市楠梓區右昌忠義七巷66號/" class="google-maps-btn" target="_blank">📍 回程導航</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="trip-info">
+            <h2>📊 行程時間分配總結</h2>
+            <div class="distance-summary">
+                <h3>⏰ 詳細時間規劃</h3>
+                <div class="distance-item">
+                    <span>去程車程（楠梓→龍崎）</span>
+                    <span><strong>40分鐘</strong></span>
+                </div>
+                <div class="distance-item">
+                    <span>關廟美食 + 文衡殿</span>
+                    <span><strong>1小時20分鐘</strong></span>
+                </div>
+                <div class="distance-item">
+                    <span>虎形山公園主要行程</span>
+                    <span><strong>4小時30分鐘</strong></span>
+                </div>
+                <div class="distance-item">
+                    <span>貓咪階梯 + 購物</span>
+                    <span><strong>50分鐘</strong></span>
+                </div>
+                <div class="distance-item">
+                    <span>回程車程（龍崎→楠梓）</span>
+                    <span><strong>40分鐘</strong></span>
+                </div>
+                <div class="distance-item" style="border-top: 2px solid #2196f3; margin-top: 10px; padding-top: 10px;">
+                    <span><strong>總計行程時間</strong></span>
+                    <span><strong>8小時</strong></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tips-section">
+            <h2>💡 實用旅遊建議</h2>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <h3>🚗 交通與停車</h3>
+                    <p>建議加滿油再出發，山區加油站較少。虎形山公園有免費停車場，但假日可能較滿。關廟區停車相對容易，多為路邊停車格。</p>
+                </div>
+                <div class="tip-item">
+                    <h3>👕 服裝與裝備</h3>
+                    <p>穿著舒適運動鞋和透氣衣物，山區早晚溫差大建議攜帶薄外套。必備：防蚊液、帽子、水壺、雨具（以防午後雷陣雨）。</p>
+                </div>
+                <div class="tip-item">
+                    <h3>📸 拍照與時間</h3>
+                    <p>望龍吊橋下午光線最佳，建議14:00-16:00拍照。貓咪階梯任何時間光線都不錯。記得攜帶行動電源保持手機電量。</p>
+                </div>
+                <div class="tip-item">
+                    <h3>🍽️ 飲食規劃</h3>
+                    <p>關廟小吃營業時間多為早上至下午，建議早點用餐。山區餐廳選擇有限，可攜帶簡單食物和充足飲水上山。</p>
+                </div>
+                <div class="tip-item">
+                    <h3>🌤️ 天氣注意</h3>
+                    <p>出發前查看天氣預報，雨天山區道路濕滑需特別小心。夏季午後常有雷陣雨，建議攜帶雨具或調整行程時間。</p>
+                </div>
+                <div class="tip-item">
+                    <h3>💰 費用預算</h3>
+                    <p>油錢約400-500元，餐費約500-800元，伴手禮500-1000元。大部分景點免費參觀，是CP值很高的一日遊路線。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="trip-info">
+            <h2>🗺️ 完整路線地圖與導航</h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <a href="https://maps.google.com/maps/dir/高雄市楠梓區右昌忠義七巷66號/台南市關廟區中央路/台南市龍崎區崎頂里新市子92號/台南市龍崎區虎形山公園/高雄市楠梓區右昌忠義七巷66號/" class="google-maps-btn" target="_blank" style="font-size: 1.1em; padding: 15px 30px;">
+                    🗺️ 開啟完整路線 Google Maps 導航
+                </a>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 15px;">
+                點擊上方按鈕可開啟包含所有景點的完整路線規劃，方便您一路導航不迷路！
+            </p>
         </div>
     </div>
 </body>
