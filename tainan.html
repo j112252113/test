@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台南一日遊旅遊建議書</title>
+    <style>
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            margin: 10px 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .route-overview {
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4ECDC4;
+        }
+        
+        .time-slot {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #FF6B6B;
+            transition: transform 0.3s ease;
+        }
+        
+        .time-slot:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .time-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .time-badge {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-right: 15px;
+            box-shadow: 0 3px 10px rgba(255,107,107,0.3);
+        }
+        
+        .location-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #4ECDC4;
+        }
+        
+        .location-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .location-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            border-radius: 50%;
+            background: #4ECDC4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .location-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+        
+        .highlight {
+            background: linear-gradient(45deg, #FFF3E0, #FFE0B2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #FF9800;
+        }
+        
+        .tips {
+            background: linear-gradient(45deg, #E8F5E8, #C8E6C9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .warning {
+            background: linear-gradient(45deg, #FFEBEE, #FFCDD2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #F44336;
+        }
+        
+        .rating {
+            color: #FFD700;
+            font-weight: bold;
+        }
+        
+        .map-embed {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .location-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌅 台南一日遊旅遊建議書 🌅</h1>
+            <p>郊外風景 × 在地美食 × 完美一日遊</p>
+        </div>
+        
+        <div class="content">
+            <div class="route-overview">
+                <h2>🗺️ 路線概覽</h2>
+                <p><strong>出發地：</strong>高雄市楠梓區右昌忠義七巷66號</p>
+                <p><strong>交通工具：</strong>自駕汽車</p>
+                <p><strong>出發時間：</strong>上午 10:00</p>
+                <p><strong>預計返家：</strong>晚上 18:00</p>
+                <p><strong>旅遊主題：</strong>郊外風景欣賞 + 台南在地美食體驗</p>
+            </div>
+            
+            <div class="time-slot">
+                <div class="time-header">
+                    <div class="time-badge">10:00-12:00</div>
+                    <h3>第一站：虎形山公園-望龍吊橋</h3>
+                </div>
+                
+                <div class="location-card">
+                    <div class="location-title">
+                        <div class="location-icon">🌉</div>
+                        虎形山公園-望龍吊橋
+                    </div>
+                    <p>位於台南龍崎區的絕美吊橋景點，可以俯瞰整個山谷美景，是近年來熱門的IG打卡聖地。</p>
+                    
+                    <div class="location-info">
+                        <div class="info-item">
+                            <span class="info-icon">⭐</span>
+                            <span>評分：<span class="rating">4.5/5</span></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>龍崎區無名路</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🚗</span>
+                            <span>約45分鐘車程</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🎯</span>
+                            <span>郊外風景/吊橋體驗</span>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight">
+                        <strong>🎨 拍照重點：</strong>
+                        <ul>
+                            <li>吊橋全景與山谷風光</li>
+                            <li>橋上俯瞰龍崎地形</li>
+                            <li>周邊步道自然生態</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="time-slot">
+                <div class="time-header">
+                    <div class="time-badge">12:30-14:00</div>
+                    <h3>午餐：Daisy House 精緻料理</h3>
+                </div>
+                
+                <div class="location-card">
+                    <div class="location-title">
+                        <div class="location-icon">🍽️</div>
+                        Daisy House
+                    </div>
+                    <p>台南東區高評價的精緻餐廳，以創意料理和優質服務聞名，是在地人推薦的美食餐廳。</p>
+                    
+                    <div class="location-info">
+                        <div class="info-item">
+                            <span class="info-icon">⭐</span>
+                            <span>評分：<span class="rating">4.9/5</span></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>中華東路一段88號</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">💰</span>
+                            <span>中高價位</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🍴</span>
+                            <span>創意料理/精緻餐點</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tips">
+                        <strong>💡 用餐建議：</strong>
+                        <ul>
+                            <li>建議提前電話預約</li>
+                            <li>推薦嘗試招牌創意料理</li>
+                            <li>用餐環境優雅，適合放鬆</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="time-slot">
+                <div class="time-header">
+                    <div class="time-badge">14:30-16:30</div>
+                    <h3>第二站：井仔腳瓦盤鹽田</h3>
+                </div>
+                
+                <div class="location-card">
+                    <div class="location-title">
+                        <div class="location-icon">🧂</div>
+                        井仔腳瓦盤鹽田
+                    </div>
+                    <p>台南北門區的歷史鹽田景區，保留傳統曬鹽工藝，夕陽時分更是攝影愛好者的天堂。</p>
+                    
+                    <div class="location-info">
+                        <div class="info-item">
+                            <span class="info-icon">⭐</span>
+                            <span>評分：<span class="rating">4.4/5</span></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>北門區西南郊復育鹽田</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🎫</span>
+                            <span>免費參觀</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">📸</span>
+                            <span>夕陽/鹽田風光</span>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight">
+                        <strong>🎨 體驗重點：</strong>
+                        <ul>
+                            <li>傳統鹽田文化巡禮</li>
+                            <li>鹽田倒影攝影</li>
+                            <li>品嘗鹽田限定小食</li>
+                            <li>欣賞濱海自然生態</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="time-slot">
+                <div class="time-header">
+                    <div class="time-badge">17:00-18:00</div>
+                    <h3>返程美食：台南孔廟前巷50號廚房</h3>
+                </div>
+                
+                <div class="location-card">
+                    <div class="location-title">
+                        <div class="location-icon">🏮</div>
+                        台南孔廟前巷50號廚房
+                    </div>
+                    <p>隱身於孔廟附近巷弄的特色餐廳，以傳統台菜創新料理聞名，是返程前品嚐在地美味的最佳選擇。</p>
+                    
+                    <div class="location-info">
+                        <div class="info-item">
+                            <span class="info-icon">⭐</span>
+                            <span>評分：<span class="rating">4.9/5</span></span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">📍</span>
+                            <span>開山路122巷50號</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🍜</span>
+                            <span>台式創意料理</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">🕐</span>
+                            <span>適合晚餐/輕食</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tips">
+                        <strong>🎯 推薦理由：</strong>
+                        <ul>
+                            <li>傳統台菜精緻化呈現</li>
+                            <li>位置便利，靠近返程路線</li>
+                            <li>份量適中，不會過飽影響返程</li>
+                            <li>可外帶台南特色伴手禮</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="warning">
+                <h3>⚠️ 重要提醒事項</h3>
+                <ul>
+                    <li><strong>天氣準備：</strong>建議攜帶防曬用品、帽子和充足飲水</li>
+                    <li><strong>服裝建議：</strong>穿著舒適步鞋，適合戶外活動的輕便服裝</li>
+                    <li><strong>停車資訊：</strong>各景點均有停車場，但假日人潮較多，建議早點到達</li>
+                    <li><strong>用餐預約：</strong>推薦餐廳建議提前電話預約，避免久候</li>
+                    <li><strong>時間彈性：</strong>行程時間可依實際狀況調整，享受慢活步調</li>
+                </ul>
+            </div>
+            
+            <div class="tips">
+                <h3>🎒 行程小貼士</h3>
+                <ul>
+                    <li><strong>攝影器材：</strong>建議攜帶相機或手機充電器，景點很適合拍照</li>
+                    <li><strong>現金準備：</strong>部分小店可能不接受信用卡，建議準備現金</li>
+                    <li><strong>特產購買：</strong>井仔腳可購買鹽田相關特產，孔廟附近有各式台南伴手禮</li>
+                    <li><strong>路況資訊：</strong>建議使用導航APP即時掌握路況，避開塞車時段</li>
+                </ul>
+            </div>
+            
+            <div class="highlight">
+                <h3>📱 推薦下載APP</h3>
+                <ul>
+                    <li><strong>Google Maps：</strong>路線導航與即時路況</li>
+                    <li><strong>台南旅遊：</strong>景點資訊與優惠券</li>
+                    <li><strong>愛食記：</strong>美食評價與推薦</li>
+                    <li><strong>天氣即時預報：</strong>掌握當日天氣變化</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <h3>🌟 祝您台南一日遊愉快！ 🌟</h3>
+            <p>記得將美好的回憶記錄下來，台南的美食與風景值得細細品味！</p>
+            <p style="font-size: 0.9em; opacity: 0.8;">※ 本行程建議僅供參考，實際遊覽請依當日狀況調整</p>
+        </div>
+    </div>
+</body>
+</html>
