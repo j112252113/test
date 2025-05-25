@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>機車路線規劃</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .route-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .route-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .route-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            background: #FF6B6B;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-location {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .step-address {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        .map-container {
+            margin: 30px;
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            position: relative;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .travel-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            margin: 30px;
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .info-item {
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+        
+        .info-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .notes {
+            background: #f8f9fa;
+            border-left: 4px solid #4ECDC4;
+            padding: 20px;
+            margin: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .notes h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .notes ul {
+            color: #5a6c7d;
+        }
+        
+        .notes li {
+            margin: 8px 0;
+        }
+
+        .coordinate-info {
+            background: #e8f4f8;
+            padding: 20px;
+            margin: 30px;
+            border-radius: 8px;
+            border: 1px solid #4ECDC4;
+        }
+
+        .location-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            margin: 10px 0;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .location-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .coordinates {
+            font-family: monospace;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏍️ 機車路線規劃</h1>
+            <p>三厝街7-11 → 享自在落羽松秘境 → 日光溫泉會館花見西餐廳</p>
+        </div>
+        
+        <div class="route-info">
+            <div class="route-card">
+                <div class="route-title">🛣️ 路線一：前往落羽松秘境</div>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-location">起點：三厝街附近7-11</div>
+                        <div class="step-address">台中市南屯區五權西路二段812號</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-location">往北經公益路</div>
+                        <div class="step-address">五權西路 → 公益路二段 (約8公里)</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-location">轉文心路往北屯</div>
+                        <div class="step-address">公益路 → 文心路四段 → 文心路三段</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-location">進入東山路</div>
+                        <div class="step-address">文心路 → 東山路二段往大坑方向</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <div class="step-location">抵達：享自在落羽松秘境</div>
+                        <div class="step-address">東山路二段民興巷民興路207-5號</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="route-card">
+                <div class="route-title">🌸 路線二：前往花見西餐廳</div>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-location">起點：享自在落羽松秘境</div>
+                        <div class="step-address">東山路二段民興巷民興路207-5號</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-location">沿東山路二段往西南</div>
+                        <div class="step-address">回頭往台中市區方向行駛</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-location">轉入光西巷</div>
+                        <div class="step-address">注意路標指示轉入光西巷</div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-location">抵達：日光溫泉會館</div>
+                        <div class="step-address">東山路二段光西巷78號</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="travel-info">
+            <div class="info-item">
+                <div class="info-label">總距離</div>
+                <div class="info-value">約25-30公里</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">預估時間</div>
+                <div class="info-value">45-60分鐘</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">交通工具</div>
+                <div class="info-value">🏍️ 機車</div>
+            </div>
+        </div>
+
+        <div class="coordinate-info">
+            <h3>📍 精確位置座標</h3>
+            <div class="location-item">
+                <div class="location-name">🏪 起點：三厝街附近7-11</div>
+                <div class="coordinates">24.1437, 120.6356</div>
+            </div>
+            <div class="location-item">
+                <div class="location-name">🌲 享自在落羽松秘境</div>
+                <div class="coordinates">24.2014, 120.7882</div>
+            </div>
+            <div class="location-item">
+                <div class="location-name">🍽️ 日光溫泉會館花見西餐廳</div>
+                <div class="coordinates">24.1929, 120.7438</div>
+            </div>
+        </div>
+        
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        
+        <div class="notes">
+            <h3>🚨 重要提醒</h3>
+            <ul>
+                <li><strong>建議出發時間：</strong>10:15從三厝街出發，避開上班尖峰時間</li>
+                <li><strong>路況注意：</strong>東山路二段為山區道路，彎道較多，請小心騎乘</li>
+                <li><strong>導航建議：</strong>可使用Google Maps或其他導航App，輸入上述座標</li>
+                <li><strong>停車資訊：</strong>兩個景點都有機車停車位，但建議先致電確認</li>
+                <li><strong>替代路線：</strong>如遇塞車可考慮走環中路或中彰快速道路</li>
+                <li><strong>聯絡電話：</strong>享自在落羽松秘境 04-2239-3129</li>
+                <li><strong>營業時間：</strong>落羽松秘境 10:00-18:00</li>
+                <li><strong>安全提醒：</strong>山區早晚溫差大，建議攜帶外套</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // 初始化地圖
+        const map = L.map('map').setView([24.17, 120.70], 11);
+
+        // 添加地圖圖層
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // 定義地點
+        const locations = [
+            {
+                coords: [24.1437, 120.6356],
+                name: "起點：三厝街附近7-11",
+                address: "台中市南屯區五權西路二段812號",
+                color: '#28a745'
+            },
+            {
+                coords: [24.2014, 120.7882],
+                name: "享自在落羽松秘境",
+                address: "東山路二段民興巷民興路207-5號",
+                color: '#007bff'
+            },
+            {
+                coords: [24.1929, 120.7438],
+                name: "日光溫泉會館花見西餐廳",
+                address: "東山路二段光西巷78號",
+                color: '#dc3545'
+            }
+        ];
+
+        // 添加標記
+        locations.forEach((location, index) => {
+            const marker = L.circleMarker(location.coords, {
+                color: location.color,
+                fillColor: location.color,
+                fillOpacity: 0.7,
+                radius: 12
+            }).addTo(map);
+
+            // 添加標記編號
+            const divIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: `<div style="background-color: ${location.color}; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white;">${index + 1}</div>`,
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+
+            L.marker(location.coords, { icon: divIcon }).addTo(map);
+
+            // 添加彈出資訊
+            marker.bindPopup(`
+                <div style="text-align: center; min-width: 200px;">
+                    <h4 style="margin: 0 0 10px 0; color: ${location.color};">${location.name}</h4>
+                    <p style="margin: 0; font-size: 0.9em; color: #666;">${location.address}</p>
+                </div>
+            `);
+        });
+
+        // 繪製路線
+        const route1 = [
+            [24.1437, 120.6356], // 7-11
+            [24.1450, 120.6500], // 往公益路方向
+            [24.1500, 120.6600], // 公益路
+            [24.1600, 120.6800], // 文心路
+            [24.1700, 120.7000], // 文心路往北
+            [24.1800, 120.7200], // 接東山路
+            [24.1900, 120.7400], // 東山路
+            [24.2014, 120.7882]  // 落羽松秘境
+        ];
+
+        const route2 = [
+            [24.2014, 120.7882], // 落羽松秘境
+            [24.1950, 120.7500], // 東山路往回
+            [24.1929, 120.7438]  // 日光溫泉會館
+        ];
+
+        // 繪製第一段路線（紅色）
+        L.polyline(route1, {
+            color: '#FF6B6B',
+            weight: 4,
+            opacity: 0.8
+        }).addTo(map).bindPopup('路線一：往落羽松秘境');
+
+        // 繪製第二段路線（藍色）
+        L.polyline(route2, {
+            color: '#4ECDC4',
+            weight: 4,
+            opacity: 0.8
+        }).addTo(map).bindPopup('路線二：往花見西餐廳');
+
+        // 調整地圖視野以包含所有點
+        const group = new L.featureGroup(locations.map(loc => L.marker(loc.coords)));
+        map.fitBounds(group.getBounds().pad(0.1));
+    </script>
+</body>
+</html>
