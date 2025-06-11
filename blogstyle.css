@@ -1,0 +1,148 @@
+/* 全域設定 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", "微軟正黑體", sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* 頁首 header */
+header {
+  background-color: #007acc;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: 2px;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 6px 12px;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* 主內容區 */
+main {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 30px;
+}
+
+/* 最新文章區 */
+#latest {
+  flex: 2;
+  margin-right: 30px;
+}
+
+#latest h2 {
+  color: #005a99;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+
+article {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+article h3 {
+  color: darkred;
+  margin-top: 0;
+}
+
+article p + figure {
+  margin: 15px 0;
+}
+
+figure {
+  text-align: center;
+}
+
+figure img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+figcaption {
+  font-style: italic;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* 特效文字 */
+mark {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+/* 側邊熱門文章 */
+aside {
+  flex: 1;
+  background-color: #eef;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  height: fit-content;
+}
+
+aside h4 {
+  color: #333;
+  margin-top: 0;
+  text-align: center;
+  border-bottom: 1px dashed #999;
+  padding-bottom: 5px;
+}
+
+aside ul {
+  padding-left: 20px;
+}
+
+aside ul > li {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* 頁尾 footer */
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 15px 10px;
+  margin-top: 30px;
+}
+
+footer address {
+  font-style: normal;
+  margin-bottom: 5px;
+}
+
+footer p {
+  margin: 0;
+}
