@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>三方定位比較</title>
+  <style>
+    #map { height: 500px; width: 100%; }
+    #results { margin-top: 10px; font-size: 16px; }
+    .marker-label { background: #fff; padding: 2px 5px; border-radius: 3px; border: 1px solid #888; }
+  </style>
+</head>
+<body>
+  <h2>三方定位比較 (Google / HERE / Amazon)</h2>
+  <button onclick="getLocations()">取得定位並顯示於地圖</button>
+  <div id="map"></div>
+  <div id="results"></div>
+
+  <!-- Google Maps JS API (請填入你的API KEY) -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+  <script>
+    let map, markers = [];
+
+    function showOnMap(locations) {
+      if (!map) {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 14,
+          center: locations[0]
+        });
+      }
+      // 清除舊標記
+      markers.forEach(m => m.setMap(null));
+      markers = [];
+      // 加入新標記
+      locations.forEach(loc => {
+        let marker = new google.maps.Marker({
+          position: loc,
+          map: map,
+          label: loc.label
+        });
+        markers.push(marker);
+      });
+      // 自動調整地圖範圍
+      let bounds = new google.maps.LatLngBounds();
+      locations.forEach(loc => bounds.extend(loc));
+      map.fitBounds(bounds);
+    }
+
+    async function getLocations() {
+      document.getElementById('results').innerText = '定位中...';
+
+      // Google 定位
+      let googleLoc = await new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            pos => resolve({lat: pos.coords.latitude, lng: pos.coords.longitude, label: 'G'}),
+            err => resolve(null), // 若失敗則回傳 null
+            { enableHighAccuracy: true, timeout: 10000 }
+          );
+        } else {
+          resolve(null);
+        }
+      });
+
+      // HERE 定位 (需填入你的API KEY)
+      let hereLoc = await fetch('https://pos.ls.hereapi.com/positioning/v1/locate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          "wifi": [], // 若要更精準可傳入wifi資訊
+          "fallback": "ip",
+          "apiKey": "YOUR_HERE_API_KEY"
+        })
+      })
+      .then(res => res.json())
+      .then(data => ({
+        lat: data.location.lat,
+        lng: data.location.lng,
+        label: 'H'
+      }))
+      .catch(() => null);
+
+      // Amazon 定位 (需填入你的Cognito身份驗證資訊)
+      // 這裡用IP定位做示意，實際應用建議用AWS SDK呼叫
+      let amazonLoc = await fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => ({
+          lat: data.latitude,
+          lng: data.longitude,
+          label: 'A'
+        }))
+        .catch(() => null);
+
+      let locations = [];
+      if (googleLoc) locations.push(googleLoc);
+      if (hereLoc) locations.push(hereLoc);
+      if (amazonLoc) locations.push(amazonLoc);
+
+      showOnMap(locations);
+
+      // 顯示座標
+      let txt = locations.map(loc =>
+        `${loc.label === 'G' ? 'Google' : loc.label === 'H' ? 'HERE' : 'Amazon'}: (${loc.lat}, ${loc.lng})`
+      ).join('<br>');
+      document.getElementById('results').innerHTML = txt;
+    }
+  </script>
+</body>
+</html>
