@@ -1,206 +1,220 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMI 計算器</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+  <title>表單驗證器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .input-error {
+      border-color: red;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>BMI 計算器</h1>
+  <h1>聯絡表單</h1>
 
-        <div class="input-group">
-            <label for="height">身高 (公分)：</label>
-            <input type="number" id="height" placeholder="例如：170">
-        </div>
-
-        <div class="input-group">
-            <label for="weight">體重 (公斤)：</label>
-            <input type="number" id="weight" placeholder="例如：65">
-        </div>
-
-        <button onclick="calculateBMI()">計算 BMI</button>
-        <button onclick="clearInputs()">清除</button>
-
-        <div id="result" class="result hidden"></div>
+  <form id="contactForm">
+    <div class="form-group">
+      <label for="name">姓名</label>
+      <input type="text" id="name" name="name">
+      <div id="nameError" class="error-message">請輸入您的姓名</div>
     </div>
 
-    <script src="bmi.js"></script>
+    <div class="form-group">
+      <label for="email">電子郵件</label>
+      <input type="text" id="email" name="email">
+      <div id="emailError" class="error-message">請輸入有效的電子郵件地址</div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">電話號碼</label>
+      <input type="tel" id="phone" name="phone">
+      <div id="phoneError" class="error-message">請輸入有效的電話號碼</div>
+    </div>
+
+    <div class="form-group">
+      <label for="subject">主旨</label>
+      <select id="subject" name="subject">
+        <option value="">請選擇主旨</option>
+        <option value="general">一般詢問</option>
+        <option value="support">技術支持</option>
+        <option value="billing">帳單問題</option>
+        <option value="other">其他</option>
+      </select>
+      <div id="subjectError" class="error-message">請選擇一個主旨</div>
+    </div>
+
+    <div class="form-group">
+      <label for="message">訊息</label>
+      <textarea id="message" name="message" rows="5"></textarea>
+      <div id="messageError" class="error-message">請輸入您的訊息</div>
+    </div>
+
+    <button type="submit">送出</button>
+  </form>
+
+  <script>
+    // 獲取表單及所有輸入元素
+    const contactForm = document.getElementById('contactForm');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const subjectInput = document.getElementById('subject');
+    const messageInput = document.getElementById('message');
+
+    // 獲取所有錯誤訊息元素
+    const nameError = document.getElementById('nameError');
+    const emailError = document.getElementById('emailError');
+    const phoneError = document.getElementById('phoneError');
+    const subjectError = document.getElementById('subjectError');
+    const messageError = document.getElementById('messageError');
+
+    // 添加表單提交事件處理器
+    contactForm.addEventListener('submit', function(event) {
+      // 阻止表單默認提交行為
+       event.preventDefault();
+
+      // 重置所有錯誤訊息和樣式
+      resetErrors();
+
+      // 驗證表單
+      let isValid = true;
+
+      // 驗證姓名
+      if (nameInput.value.trim() === '') {
+        showError(nameInput, nameError);
+        isValid = false;
+      }
+
+      // 驗證電子郵件
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(emailInput.value)) {
+        showError(emailInput, emailError);
+        isValid = false;
+      }
+
+      // 驗證電話號碼（簡單驗證：只能包含數字、空格、連字符和括號）
+      const phonePattern = /^[\d\s\-()]+$/;
+      if (phoneInput.value.trim() !== '' && !phonePattern.test(phoneInput.value)) {
+        showError(phoneInput, phoneError);
+        isValid = false;
+      }
+
+      // 驗證主旨
+      if (subjectInput.value === '') {
+        showError(subjectInput, subjectError);
+        isValid = false;
+      }
+
+      // 驗證訊息
+      if (messageInput.value.trim() === '') {
+        showError(messageInput, messageError);
+        isValid = false;
+      }
+
+      // 如果表單有效，提交表單
+      if (isValid) {
+        alert('表單提交成功！');
+        contactForm.submit();
+        // 在實際應用中，這裡可以發送表單數據到服務器
+      }
+    });
+
+    //為每個輸入欄位添加 input 事件處理器
+    nameInput.addEventListener('input', function() {
+      if (this.value.trim() !== '') {
+        hideError(this, nameError);
+      }
+    });
+
+    emailInput.addEventListener('input', function() {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailPattern.test(this.value)) {
+        hideError(this, emailError);
+      }
+    });
+
+    phoneInput.addEventListener('input', function() {
+      const phonePattern = /^[\d\s\-()]+$/;
+      if (this.value.trim() === '' || phonePattern.test(this.value)) {
+        hideError(this, phoneError);
+      }
+    });
+
+    subjectInput.addEventListener('change', function() {
+      if (this.value !== '') {
+        hideError(this, subjectError);
+      }
+    });
+
+    messageInput.addEventListener('input', function() {
+      if (this.value.trim() !== '') {
+        hideError(this, messageError);
+      }
+    });
+
+    // 顯示錯誤訊息
+    function showError(input, errorElement) {
+    //   input.classList.add('input-error');
+      errorElement.style.display = 'block';
+    }
+
+    // 隱藏錯誤訊息
+    function hideError(input, errorElement) {
+    //   input.classList.remove('input-error');
+      errorElement.style.display = 'none';
+    }
+
+    // 重置所有錯誤訊息和樣式
+    function resetErrors() {
+      // 移除所有輸入欄位的錯誤樣式
+      const inputs = contactForm.querySelectorAll('input, textarea, select');
+      inputs.forEach(input => input.classList.remove('input-error'));
+
+      // 隱藏所有錯誤訊息
+      const errorMessages = contactForm.querySelectorAll('.error-message');
+      errorMessages.forEach(error => error.style.display = 'none');
+    }
+  </script>
 </body>
 </html>
-<script>
-    // BMI 計算器的完整實作
-function calculateBMI() {
-    // 取得輸入值
-    let heightInput = document.getElementById('height');
-    let weightInput = document.getElementById('weight');
-    let resultDiv = document.getElementById('result');
-
-    let height = parseFloat(heightInput.value);
-    let weight = parseFloat(weightInput.value);
-
-    // 驗證輸入
-    if (!validateInput(height, weight)) {
-        return;
-    }
-
-    // 計算 BMI
-    let heightInMeters = height / 100; // 轉換為公尺
-    let bmi = weight / (heightInMeters * heightInMeters);
-
-    // 判斷 BMI 等級
-    let category = getBMICategory(bmi);
-
-    // 顯示結果
-    displayResult(bmi, category);
-}
-
-function validateInput(height, weight) {
-    let resultDiv = document.getElementById('result');
-
-    if (isNaN(height) || isNaN(weight)) {
-        showError("請輸入有效的數字");
-        return false;
-    }
-
-    if (height <= 0 || height > 300) {
-        showError("請輸入有效的身高 (1-300 公分)");
-        return false;
-    }
-
-    if (weight <= 0 || weight > 500) {
-        showError("請輸入有效的體重 (1-500 公斤)");
-        return false;
-    }
-
-    return true;
-}
-
-function getBMICategory(bmi) {
-    if (bmi < 18.5) {
-        return {
-            category: "體重過輕",
-            color: "#2196F3",
-            advice: "建議增加營養攝取並適度運動"
-        };
-    } else if (bmi < 24) {
-        return {
-            category: "正常範圍",
-            color: "#4CAF50",
-            advice: "請保持目前的健康狀態"
-        };
-    } else if (bmi < 27) {
-        return {
-            category: "體重過重",
-            color: "#FF9800",
-            advice: "建議控制飲食並增加運動量"
-        };
-    } else {
-        return {
-            category: "肥胖",
-            color: "#F44336",
-            advice: "建議諮詢專業醫師或營養師"
-        };
-    }
-}
-
-function displayResult(bmi, categoryInfo) {
-    let resultDiv = document.getElementById('result');
-
-    resultDiv.innerHTML = `
-        <h3>計算結果</h3>
-        <p>您的 BMI 指數：<strong>${bmi.toFixed(1)}</strong></p>
-        <p>健康狀況：<strong style="color: ${categoryInfo.color}">${categoryInfo.category}</strong></p>
-        <p><em>${categoryInfo.advice}</em></p>
-    `;
-
-    resultDiv.style.backgroundColor = categoryInfo.color + "20";
-    resultDiv.style.border = "2px solid " + categoryInfo.color;
-    resultDiv.classList.remove('hidden');
-}
-
-function showError(message) {
-    let resultDiv = document.getElementById('result');
-
-    resultDiv.innerHTML = `
-        <p style="color: #F44336;"><strong>錯誤：</strong>${message}</p>
-    `;
-
-    resultDiv.style.backgroundColor = "#ffebee";
-    resultDiv.style.border = "2px solid #F44336";
-    resultDiv.classList.remove('hidden');
-}
-
-function clearInputs() {
-    document.getElementById('height').value = '';
-    document.getElementById('weight').value = '';
-    document.getElementById('result').classList.add('hidden');
-}
-
-// 讓輸入框支援 Enter 鍵計算
-document.addEventListener('DOMContentLoaded', function() {
-    let inputs = document.querySelectorAll('input[type="number"]');
-
-    inputs.forEach(function(input) {
-        input.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                calculateBMI();
-            }
-        });
-    });
-});
-</script>

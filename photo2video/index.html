@@ -22,17 +22,11 @@
         .photo-container {
             width: 80vw;
             max-width: 960px;
-            aspect-ratio: 16 / 9;
             overflow: hidden;
             border-radius: 10px;
             border: 8px solid #fff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2), 0 6px 20px rgba(0,0,0,0.19);
             background-color: #000;
-            transition: aspect-ratio 0.5s ease-in-out; /* 新增轉場效果 */
-        }
-
-        .photo-container:hover {
-            aspect-ratio: var(--original-aspect-ratio, 16 / 9); /* 懸停時使用原始寬高比 */
         }
 
         .photo-container img {
@@ -51,32 +45,36 @@
 
     <script>
         const galleryContainer = document.getElementById('gallery-container');
-        const photoCount = 14; // 根據 photo/ 資料夾中的照片數量調整
 
-        // 產生圖片
-        for (let i = 1; i <= photoCount; i++) {
+        function loadImage(i) {
             const paddedIndex = String(i).padStart(3, '0');
             const photoSrc = `./photos/${paddedIndex}.jpg`;
 
-            // 建立照片容器
-            const photoDiv = document.createElement('div');
-            photoDiv.className = 'photo-container';
+            const imgElement = new Image();
 
-            // 建立圖片元素
-            const imgElement = document.createElement('img');
-
-            // 當圖片載入後，計算其原始寬高比並存為 CSS 變數
             imgElement.onload = function() {
-                photoDiv.style.setProperty('--original-aspect-ratio', this.naturalWidth / this.naturalHeight);
+                const photoDiv = document.createElement('div');
+                photoDiv.className = 'photo-container';
+                photoDiv.style.aspectRatio = this.naturalWidth / this.naturalHeight;
+
+                const visibleImg = document.createElement('img');
+                visibleImg.src = this.src;
+                visibleImg.alt = `照片 ${paddedIndex}`;
+
+                photoDiv.appendChild(visibleImg);
+                galleryContainer.appendChild(photoDiv);
+
+                loadImage(i + 1);
+            };
+
+            imgElement.onerror = function() {
+                // No more images to load
             };
 
             imgElement.src = photoSrc;
-            imgElement.alt = `照片 ${paddedIndex}`;
-
-            // 將圖片加入容器，再將容器加入畫廊
-            photoDiv.appendChild(imgElement);
-            galleryContainer.appendChild(photoDiv);
         }
+
+        loadImage(1);
     </script>
 
 </body>
